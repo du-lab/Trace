@@ -22,10 +22,11 @@ def get_image( profile_file_mzML, pk_list, RESULTS_PATH, Big_RAM = 0, window_mz 
 
     images = []
 
-    for i in range(len(pk_list)):
+    #for i in range(7101): #len(pk_list)
+    for i in range(7101, 7201):
 
-        if i%50 ==0:
-            print(('Extract image of signal NO.: ', i))
+
+        print(('Extract image of signal NO.: ', i))
 
         mz0 = float(pk_list[i][0])
         rt0 = float(pk_list[i][1])

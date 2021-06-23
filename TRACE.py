@@ -5,6 +5,7 @@ from scan_cwt_1 import scan_mp
 from getImage_2 import get_image
 from predict_3 import predict
 import multiprocessing as mp
+import pickle
 
 if __name__ == '__main__':
 
@@ -26,10 +27,11 @@ if __name__ == '__main__':
         os.makedirs(RESULTS_PATH)
 
     ## First step: Preprocessing and initial scanning.
-    pks_initial = scan_mp(r"C:\Users\jerry\Desktop\IC1_22.mzML", RESULTS_PATH = RESULTS_PATH, NUM_C = NUM_C )  ##
-
+    pks_initial = scan_mp(r"C:\Users\jerry\Desktop\DCSM_CENTROID.mzML", RESULTS_PATH = RESULTS_PATH, NUM_C = NUM_C )  ##
+    pickle.dump(pks_initial, open( RESULTS_PATH + "\\save.p", "wb" ))
     ## Second step: Signal image evaluation.
-    images = get_image(r"C:\Users\jerry\Desktop\IC1_22.mzML", pks_initial, RESULTS_PATH, Big_RAM, window_mz, window_rt)
+    pks_initial_debug = pickle.load(open( RESULTS_PATH + "\\save.p", "rb" ))
+    images = get_image(r"C:\Users\jerry\Desktop\DCSM_PROFILE.mzML", pks_initial, RESULTS_PATH, Big_RAM, window_mz, window_rt)
 
     pks_final = predict(images, pks_initial, RESULTS_PATH = RESULTS_PATH, K_means = K_MEANS )
 

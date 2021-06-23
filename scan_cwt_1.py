@@ -22,11 +22,12 @@ import multiprocessing as mp
 
 ################### Important Paramenters To Be Changed ###################
 
-mz_min = 50  # The minimum of m/z to be evaluated
-mz_max = 370  # The maximum of m/z to be evaluated
-mz_r = 0.0050  # The m/z bin for signal detection and evaluation (window is +/- this value)
-
-ms_freq = 45  ## The scanning frequency of MS: spectrums/second. Change accordingly
+mz_min = 60  # The minimum of m/z to be evaluated
+mz_max = 900  # The maximum of m/z to be evaluated
+mz_r = 0.001  # The m/z bin for signal detection and evaluation (window is +/- this value)
+time_window = 6 # 0.5 original value (mins), using seconds currently
+max_peak_width = 60 #original 1.5 * 5 * 0.503 / 60
+ms_freq = 3.21  ## The scanning frequency of MS: spectrums/second. Change accordingly
 ################### Important Paramenters To Be Changed ###################
 
 ################### Important Paramenters ###################
@@ -35,13 +36,13 @@ widths = np.asarray([i for i in range(1, int(10 * ms_freq), 1)] + [int(20 * ms_f
 gap_thresh = np.ceil(widths[0])
 window_size = 30
 min_length = int(len(widths) * 0.2)  # org: 0.25
-min_snr = 45  # org: 8. This is the Signal Noise Ratio for the wavelet and may needed to be adjusted.
+min_snr = 4  # org: 8. This is the Signal Noise Ratio for the wavelet and may needed to be adjusted.
 perc = 90
 
 ############################################
 Pick_mlist = np.arange(mz_min, mz_max, mz_r)
 max_distances = widths / 4.0
-max_scale_for_peak = 18
+max_scale_for_peak = 25
 hf_window = int(0.5 * window_size)
 
 
@@ -65,7 +66,7 @@ def cwt(data, widths):
     output = np.zeros([len(widths), len(data)])
     for ind, width in enumerate(widths):
         wavelet_data = ricker(min(10 * width, len(data)), width)
-        print("width, wavelet, data ", width, len(wavelet_data), len(data))
+        #print("width, wavelet, data ", width, len(wavelet_data), len(data))
         output[ind, :] = convolve(data, wavelet_data, mode='same')
     return output
 
@@ -185,9 +186,9 @@ def scan_EIC(ind):
     scantime_max = float(scan_time[len(scan_time) - 1])
 
     mz_t = round(float(Pick_mlist[ind]), 3)
-    chrm_ht = [];
-    chrm_mz = [];
-    chrm_tt = [];
+    chrm_ht = []
+    chrm_mz = []
+    chrm_tt = []
     chrm_ct = []
 
     mz1 = mz_t - mz_r
@@ -239,21 +240,23 @@ def scan_EIC(ind):
     for line in ridge_lines:
 
         # first pass (too close to the edges)
-        if chrm_tt[line[1][0]] < scantime_min + 0.5 or chrm_tt[line[1][0]] > scantime_max - 0.5: continue
+        if chrm_tt[line[1][0]] < scantime_min + time_window or chrm_tt[line[1][0]] > scantime_max - time_window: continue
 
         # second pass (min_lenght)
         if len(line[0]) < min_length: continue
 
         tm = chrm_tt[line[1][0]]
-        tm1 = tm - 0.5
-        tm2 = tm + 0.5
+        tm1 = tm - time_window
+        tm2 = tm + time_window
         pk1 = bs.bisect_left(chrm_tt, tm1)
         pkm = bs.bisect_left(chrm_tt, tm)
         pk2 = bs.bisect_left(chrm_tt, tm2)
+
+        print(pk1, pkm, pk2)
         if pkm - pk1 < 3: continue
         if pk2 - pkm < 3: continue
 
-        if chrm_tt[pkm + 2] - chrm_tt[pkm - 3] > 1.5 * 5 * 0.503 / 60: continue
+        if chrm_tt[pkm + 2] - chrm_tt[pkm - 3] > max_peak_width : continue
 
         pkk1 = max(0, pkm - hf_window)
         pkk2 = min(pkm + hf_window, len(chrm_ht) - 1)
@@ -340,6 +343,7 @@ def scan_EIC(ind):
 spec_m = []  # empty matrix for m/z
 spec_i = []  # empty matrix for intensity
 scan_time = []
+spec_level = []  #empty matrix for scan levels (ms1 vs msN or ms2)
 
 
 # pks_found = []
@@ -347,6 +351,7 @@ scan_time = []
 def scan_mp(centroid_file_mzML, RESULTS_PATH, NUM_C):
     global spec_m
     global spec_i
+    global spec_level
     global scan_time
 
 
@@ -354,12 +359,17 @@ def scan_mp(centroid_file_mzML, RESULTS_PATH, NUM_C):
     fout = RESULTS_PATH + "/Initial_pks.txt"  # File for save the initial scaning results. To be changed
 
     spec_comp = []
-    for event, elem in et.iterparse(fn1, ("start", "end")):
-        if (elem.tag.endswith('cvParam') and elem.attrib['name'] == 'time array'): break
 
+    for event, elem in et.iterparse(fn1, ("start", "end")):
+
+        if (elem.tag.endswith('cvParam') and elem.attrib['name'] == 'ms level'and event == 'end' and elem.attrib['value'] == '1'):
+            spec_level.append(1)
+        elif (elem.tag.endswith('cvParam') and elem.attrib['name'] == 'ms level' and event == 'end' and elem.attrib['value'] == '2'):
+            spec_level.append(2)
+
+        if (elem.tag.endswith('cvParam') and elem.attrib['name'] == 'time array'): break
         if (elem.tag.endswith('cvParam') and elem.attrib['name'] == 'scan start time' and event == 'end'):
             scan_time.append(elem.attrib['value'])
-
         if (elem.tag.endswith("spectrum") or elem.tag.endswith("chromatogram")):
             spec_len = elem.attrib['defaultArrayLength']
             spec_idx = int(elem.attrib['index'])
@@ -388,7 +398,7 @@ def scan_mp(centroid_file_mzML, RESULTS_PATH, NUM_C):
 
                 fmt = "{endian}{arraylength}{floattype}".format(endian = "<", arraylength=spec_len, floattype=spec_type)
                 unpackedData = unpack(fmt, decodedData)
-                print("Data type/length/example ", spec_name, len(unpackedData), unpackedData[0:2])
+                #print("Data type/length/example ", spec_name, len(unpackedData), unpackedData[0:2])
 
 
                 if spec_name == 'mz':
