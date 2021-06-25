@@ -14,7 +14,7 @@ if __name__ == '__main__':
 
     NUM_C = 1 ## MP use (all-2) threads by default. Adjusted to 1 core due to joblib error
 
-    Big_RAM = 0   ## See if the RAM of PC is big enough (> 8 times bigger than profile file size)
+    Big_RAM = 0  ## See if the RAM of PC is big enough (> 8 times bigger than profile file size)
 
     K_MEANS = 8  ## Or some integer (2~10 recommended); for k-means clustering of signal images
 
@@ -27,13 +27,13 @@ if __name__ == '__main__':
         os.makedirs(RESULTS_PATH)
 
     ## First step: Preprocessing and initial scanning.
-    pks_initial = scan_mp(r"C:\Users\jerry\Desktop\DCSM_CENTROID.mzML", RESULTS_PATH = RESULTS_PATH, NUM_C = NUM_C )  ##
-    pickle.dump(pks_initial, open( RESULTS_PATH + "\\save.p", "wb" ))
+    #pks_initial = scan_mp(r"C:\Users\jerry\Desktop\DCSM_CENTROID.mzML", RESULTS_PATH = RESULTS_PATH, NUM_C = NUM_C )  ##
+    #pickle.dump(pks_initial, open( RESULTS_PATH + "\\save.p", "wb" ))
     ## Second step: Signal image evaluation.
     pks_initial_debug = pickle.load(open( RESULTS_PATH + "\\save.p", "rb" ))
-    images = get_image(r"C:\Users\jerry\Desktop\DCSM_PROFILE.mzML", pks_initial, RESULTS_PATH, Big_RAM, window_mz, window_rt)
+    images = get_image(r"C:\Users\jerry\Desktop\DCSM_PROFILE.mzML", pks_initial_debug, RESULTS_PATH, Big_RAM, window_mz, window_rt)
 
-    pks_final = predict(images, pks_initial, RESULTS_PATH = RESULTS_PATH, K_means = K_MEANS )
+    pks_final = predict(images, pks_initial_debug, RESULTS_PATH = RESULTS_PATH, K_means = K_MEANS )
 
 
     print ('Done! Final results in ' +  RESULTS_PATH + ' folder.')

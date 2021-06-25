@@ -22,8 +22,8 @@ def get_image( profile_file_mzML, pk_list, RESULTS_PATH, Big_RAM = 0, window_mz 
 
     images = []
 
-    #for i in range(7101): #len(pk_list)
-    for i in range(7101, 7201):
+    for i in range(len(pk_list)):
+    #for i in range(7131, 7140): #debug
 
 
         print(('Extract image of signal NO.: ', i))
