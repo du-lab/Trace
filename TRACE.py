@@ -26,10 +26,10 @@ if __name__ == '__main__':
         os.makedirs(RESULTS_PATH)
 
     ## First step: Preprocessing and initial scanning.
-    pks_initial = scan_mp(r"C:\Users\jerry\Desktop\IC1_22.mzML", RESULTS_PATH = RESULTS_PATH, NUM_C = NUM_C )  ##
+    pks_initial = scan_mp(r"C:\Users\jerry\Desktop\2016-03-15_EP03_D11_cell-E2-2.mzML", RESULTS_PATH = RESULTS_PATH, NUM_C = NUM_C )  ##
 
     ## Second step: Signal image evaluation.
-    images = get_image(r"C:\Users\jerry\Desktop\IC1_22.mzML", pks_initial, RESULTS_PATH, Big_RAM, window_mz, window_rt)
+    images = get_image(r"C:\Users\jerry\Desktop\D11LE22.mzML", pks_initial, RESULTS_PATH, Big_RAM, window_mz, window_rt)
 
     pks_final = predict(images, pks_initial, RESULTS_PATH = RESULTS_PATH, K_means = K_MEANS )
 

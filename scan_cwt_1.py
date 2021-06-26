@@ -22,21 +22,22 @@ import multiprocessing as mp
 
 ################### Important Paramenters To Be Changed ###################
 
-mz_min = 50  # The minimum of m/z to be evaluated
-mz_max = 370  # The maximum of m/z to be evaluated
-mz_r = 0.0050  # The m/z bin for signal detection and evaluation (window is +/- this value)
+mz_min = 25.000        # The minimum of m/z to be evaluated
+mz_max = 550.01        # The maximum of m/z to be evaluated
+mz_r  = 0.0050         # The m/z bin for signal detection and evaluation (window is +/- this value)
 
-ms_freq = 45  ## The scanning frequency of MS: spectrums/second. Change accordingly
+ms_freq = 2       ## The scanning frequency of MS: spectrums/second. Change accordingly
 ################### Important Paramenters To Be Changed ###################
 
 ################### Important Paramenters ###################
-min_len_eic = 6  ## Minimum length of a EIC to be scanned by CWT
-widths = np.asarray([i for i in range(1, int(10 * ms_freq), 1)] + [int(20 * ms_freq)])
+min_len_eic = 6   ## Minimum length of a EIC to be scanned by CWT
+widths=np.asarray( [i for i in range(1,int(10*ms_freq),1)] + [int(20*ms_freq)] )
 gap_thresh = np.ceil(widths[0])
 window_size = 30
-min_length = int(len(widths) * 0.2)  # org: 0.25
-min_snr = 45  # org: 8. This is the Signal Noise Ratio for the wavelet and may needed to be adjusted.
-perc = 90
+min_length  = int(len(widths)*0.2)  # org: 0.25
+min_snr = 4  # org: 8. This is the Signal Noise Ratio for the wavelet and may needed to be adjusted.
+perc= 90
+
 
 ############################################
 Pick_mlist = np.arange(mz_min, mz_max, mz_r)
