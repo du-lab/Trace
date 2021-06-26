@@ -23,7 +23,7 @@ def get_image( profile_file_mzML, pk_list, RESULTS_PATH, Big_RAM = 0, window_mz 
     images = []
 
     for i in range(len(pk_list)):
-    #for i in range(7131, 7140): #debug
+    #for i in range(7162, 7170): #debug
 
 
         print(('Extract image of signal NO.: ', i))
@@ -62,6 +62,7 @@ def get_image( profile_file_mzML, pk_list, RESULTS_PATH, Big_RAM = 0, window_mz 
             area = read.extract_area(inputfile, pos_rt1, pos_rt2, pos_mz1, pos_mz2)
 
         images.append(np.reshape((area), window_mz * window_rt * 4))
+
 
     print(np.shape((images)))
     f2 = (RESULTS_PATH+ "/Images_pks.txt")   ##@@ To be changed @@##
