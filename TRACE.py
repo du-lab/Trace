@@ -5,6 +5,8 @@ from scan_cwt_1 import scan_mp
 from getImage_2 import get_image
 from predict_3 import predict
 import multiprocessing as mp
+import pickle
+import pandas as pd
 
 if __name__ == '__main__':
 
@@ -25,13 +27,21 @@ if __name__ == '__main__':
     if not os.path.isdir(RESULTS_PATH):   ## Will create a folder for results if not existent.
         os.makedirs(RESULTS_PATH)
 
-    ## First step: Preprocessing and initial scanning.
-    pks_initial = scan_mp(r"C:\Users\jerry\Desktop\2016-03-15_EP03_D11_cell-E2-2.mzML", RESULTS_PATH = RESULTS_PATH, NUM_C = NUM_C )  ##
-
+    pks_initial = scan_mp(r"C:\Users\jerry\Desktop\DCSM_CENTROID.mzML", RESULTS_PATH=RESULTS_PATH, NUM_C=NUM_C)  ##
+    pickle.dump(pks_initial, open(RESULTS_PATH + "\\save.p", "wb"))
     ## Second step: Signal image evaluation.
-    images = get_image(r"C:\Users\jerry\Desktop\D11LE22.mzML", pks_initial, RESULTS_PATH, Big_RAM, window_mz, window_rt)
-
-    pks_final = predict(images, pks_initial, RESULTS_PATH = RESULTS_PATH, K_means = K_MEANS )
+    pks_initial_debug = pickle.load(open(RESULTS_PATH + "\\save.p", "rb"))
+    images = get_image(r"C:\Users\jerry\Desktop\DCSM_PROFILE.mzML", pks_initial_debug, RESULTS_PATH, Big_RAM, window_mz,
+                       window_rt)
+    pickle.dump(images, open(RESULTS_PATH + "\\save2.p", "wb"))
+    images_debug = pickle.load(open(RESULTS_PATH + "\\save2.p", "rb"))
+    initPeaks = pd.read_csv(RESULTS_PATH + "\Initial_pks.txt", delimiter="  ", header=None)
+    initPeaks.columns = ['M/Z', 'Time', 'Intensity', 'Area', 'Snr']
+    initPeaks.to_csv(RESULTS_PATH + "\Initial_pks.csv", index=None)
+    finalPeaks = pd.read_csv(RESULTS_PATH + "\Final_pks.txt", delimiter=" ", header=None)
+    finalPeaks.columns = ['M/Z', 'Time', 'Intensity', 'Area', 'Snr', 'Peak Membership', 'Peak Membership']
+    finalPeaks.to_csv(RESULTS_PATH + "\Final_pks.csv", index=None)
+    pks_final = predict(images_debug, pks_initial_debug, RESULTS_PATH=RESULTS_PATH, K_means=K_MEANS, PLOG_IMG=False)
 
 
     print ('Done! Final results in ' +  RESULTS_PATH + ' folder.')
