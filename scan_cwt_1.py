@@ -8,6 +8,7 @@ import zlib
 import bisect as bs
 import xml.etree.cElementTree as et
 import struct
+import pandas as pd
 
 from scipy.signal import convolve
 from scipy.stats import scoreatpercentile
@@ -361,7 +362,7 @@ def scan_mp(centroid_file_mzML, RESULTS_PATH, NUM_C):
     spec_comp = []
 
     for event, elem in et.iterparse(fn1, ("start", "end")):
-
+        #checking for ms-level type. can adjust to break later if data has both mslevels 1 and 2 and only want to peak-pick level 2
         if (elem.tag.endswith('cvParam') and elem.attrib['name'] == 'ms level'and event == 'end' and elem.attrib['value'] == '1'):
             spec_level.append(1)
         elif (elem.tag.endswith('cvParam') and elem.attrib['name'] == 'ms level' and event == 'end' and elem.attrib['value'] == '2'):
@@ -420,6 +421,7 @@ def scan_mp(centroid_file_mzML, RESULTS_PATH, NUM_C):
     pks_final = merge(pks_merged)
 
     np.savetxt(fout, pks_final, fmt='%.4f', delimiter="  ")
+
     print('Initial screening done! Total peaks found: ', len(pks_final))
 
     return pks_final

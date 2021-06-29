@@ -34,7 +34,7 @@ def max_pool_2x2(x):
                           strides=[1, 2, 2, 1], padding='SAME')
 
 ############ Deep Learning Training Process#########################
-def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = None):
+def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = True):
 
     images0 = np.loadtxt(r"C:\Users\jerry\Desktop\Trace-master\Imgs_mean_std.txt")
     mean_img = images0[0]
@@ -139,11 +139,11 @@ def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = None):
             target_imgs.append(imgs_raw[kk])
 
     print ('Final peaks predicted: ', len(target_pks))
-    f2 = (RESULTS_PATH + "/ImageData_Final-pks.txt")
+    f2 = (RESULTS_PATH + "\ImageData_Final-pks.txt")
     np.savetxt(f2, target_imgs, fmt='%.2f',delimiter=' ')
 
     if PLOT_IMG :
-        os.system('mkdir ./Results/Signal_Images')
+        os.system('mkdir .\Results\Signal_Images')
         print ('Now Ploting...') 
         for kk in range(np.shape(target_pks)[0]):
             mz0 = round(tmp2[0], 3); rt0 = round(tmp2[1], 3)
@@ -153,7 +153,7 @@ def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = None):
             plt.xlabel('M/Z')
             plt.ylabel('Time')
             plt.colorbar()
-            plt.savefig(RESULTS_PATH+ "/Signal_Images/Signal_" + str(kk+1) + '_' + str(mz0) + '_'+ str(rt0) + '.png')
+            plt.savefig(RESULTS_PATH+ "\Signal_Images\Signal_" + str(kk+1) + '_' + str(mz0) + '_'+ str(rt0) + '.png')
             plt.clf()
 
     if K_means :
