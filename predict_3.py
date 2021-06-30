@@ -34,7 +34,7 @@ def max_pool_2x2(x):
                           strides=[1, 2, 2, 1], padding='SAME')
 
 ############ Deep Learning Training Process#########################
-def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = None):
+def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = False):
 
     images0 = np.loadtxt(r"C:\Users\jerry\Desktop\Trace-master\Imgs_mean_std.txt")
     mean_img = images0[0]

@@ -14,35 +14,35 @@ from scipy.stats import scoreatpercentile
 import scipy.stats as stats
 import scipy.signal as signal
 import matplotlib.pyplot as plt
-
+from MasterConfig import MasterConfig
 from joblib import Parallel, delayed
 import multiprocessing as mp
 
 # https://stackoverflow.com/questions/21027477/joblib-parallel-multiple-cpus-slower-than-single
 
 ################### Important Paramenters To Be Changed ###################
+params = MasterConfig()
+mz_min = params.mz_min       # The minimum of m/z to be evaluated
+mz_max = params.mz_max       # The maximum of m/z to be evaluated
+mz_r  = params.mz_r       # The m/z bin for signal detection and evaluation (window is +/- this value)
 
-mz_min = 25.000        # The minimum of m/z to be evaluated
-mz_max = 550.01        # The maximum of m/z to be evaluated
-mz_r  = 0.0050         # The m/z bin for signal detection and evaluation (window is +/- this value)
-
-ms_freq = 2       ## The scanning frequency of MS: spectrums/second. Change accordingly
+ms_freq = params.ms_freq       ## The scanning frequency of MS: spectrums/second. Change accordingly
 ################### Important Paramenters To Be Changed ###################
 
 ################### Important Paramenters ###################
-min_len_eic = 6   ## Minimum length of a EIC to be scanned by CWT
+min_len_eic = params.min_len_eic  ## Minimum length of a EIC to be scanned by CWT
 widths=np.asarray( [i for i in range(1,int(10*ms_freq),1)] + [int(20*ms_freq)] )
 gap_thresh = np.ceil(widths[0])
-window_size = 30
+window_size = params.window_size
 min_length  = int(len(widths)*0.2)  # org: 0.25
-min_snr = 4  # org: 8. This is the Signal Noise Ratio for the wavelet and may needed to be adjusted.
-perc= 90
+min_snr = params.min_snr  # org: 8. This is the Signal Noise Ratio for the wavelet and may needed to be adjusted.
+perc= params.perc
 
 
 ############################################
 Pick_mlist = np.arange(mz_min, mz_max, mz_r)
 max_distances = widths / 4.0
-max_scale_for_peak = 18
+max_scale_for_peak = params.max_scale_for_peak
 hf_window = int(0.5 * window_size)
 
 
