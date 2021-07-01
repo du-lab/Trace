@@ -39,7 +39,7 @@ While the pre-trained model is provided under default settings for our CE-ESI-MS
 ## Usage
 
 ### Adjust Parameters
-Reference parameter descriptions at: https://pubs.acs.org/doi/suppl/10.1021/acs.analchem.8b05985/suppl_file/ac8b05985_si_001.pdf
+Reference parameter descriptions at: https://drive.google.com/file/d/1sFaYOJhUzy4CGAyHIkhhx4Vdc1x7Sx9x/view?usp=sharing
 Change any parameter using the params object:
 ```
 from MasterConfig import params
@@ -54,7 +54,7 @@ python TRACE.py
 
 
 
-###Results
+### Results
 After running the code, a folder called "`Results`" will be generated (if not existent) and the result files will be saved under that folder. These files will be generated:
 
 

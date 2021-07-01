@@ -2,7 +2,7 @@ import numpy as np
 
 #Configure Parameters For All Modules and GUI
 class MasterConfig():
-    #Reference parameter descriptions at: https://pubs.acs.org/doi/suppl/10.1021/acs.analchem.8b05985/suppl_file/ac8b05985_si_001.pdf
+    #Reference parameter descriptions at: https://drive.google.com/file/d/1sFaYOJhUzy4CGAyHIkhhx4Vdc1x7Sx9x/view?usp=sharing
 
     # --------------PATHS---------------
     #Do not need to create the directories
