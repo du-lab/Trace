@@ -9,6 +9,7 @@ class MasterConfig():
     # MS Data must be in .mzML format. Convert using MSConvert from Proteowizard. Specify the path on your computer and include "r" before
     CENTROID_MS_PATH = r"C:\Users\jerry\Desktop\2016-03-15_EP03_D11_cell-E2-2.mzML"
     PROFILE_MS_PATH = r"C:\Users\jerry\Desktop\D11LE22.mzML"
+    # -----------------------------------
 
     # --------GENERAL PARAMETERS--------
     NUM_C = 1  ## MP use (all-2) threads by default. Adjusted to 1 core due to parallel processing error
@@ -22,6 +23,7 @@ class MasterConfig():
     mz_max = 550.01  # The maximum of m/z to be evaluated
     mz_r = 0.0050  # The m/z bin for signal detection and evaluation (window is +/- this value)
     ms_freq = 2  ## The scanning frequency of MS: spectrums/second. Change accordingly
+    # ---------------------------------
 
     # ----------CWT PARAMETERS---------
     min_len_eic = 6  ## Minimum length of a EIC to be scanned by CWT
@@ -36,6 +38,7 @@ class MasterConfig():
     max_distances = widths / 4.0
     max_scale_for_peak = 18
     hf_window = int(0.5 * window_size)
+    # ----------------------------------
 
     # ADD DEEP LEARNING PARAMETERS HERE
 
