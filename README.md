@@ -38,6 +38,13 @@ While the pre-trained model is provided under default settings for our CE-ESI-MS
 
 ## Usage
 
+### Read raw files
+Read raw files through `mzmlReadRaw.py` and the `init_scan()` function. 
+```
+import mzmlReadRaw as read
+[scan_num, scan_t, mz_list] = read.init_scan(inputfile)
+```
+
 ### Adjust Parameters
 Reference parameter descriptions at: https://drive.google.com/file/d/1sFaYOJhUzy4CGAyHIkhhx4Vdc1x7Sx9x/view?usp=sharing
 Change any parameter using the params object:
