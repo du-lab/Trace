@@ -40,13 +40,13 @@ if __name__ == '__main__':
     finalPeaks.to_csv(params.RESULTS_PATH + "\Final_pks.csv", index=None)
 
     #saving dataframe vars
-    dataFrameInitPeaks = pd.read_csv(params.RESULTS_PATH + "\Initial_pks.csv")
-    #print(dataFrameInitPeaks)
-    dataFrameFinalPeaks = pd.read_csv(params.RESULTS_PATH + "\Final_pks.csv")
-    #print(dataFrameFinalPeaks)
+    results.dataFrameInitPeaks = pd.read_csv(params.RESULTS_PATH + "\Initial_pks.csv")
+    results.dataFrameFinalPeaks = pd.read_csv(params.RESULTS_PATH + "\Final_pks.csv")
+
 
     ## Final prediction
     pks_final = predict(images_debug, pks_initial_debug, RESULTS_PATH=params.RESULTS_PATH, K_means=params.K_MEANS, PLOT_IMG=params.Plot_images)
     results.final_peaks = pks_final
+    breakpoint()
     print ('Done! Final results in ' + params.RESULTS_PATH + ' folder.')
 
