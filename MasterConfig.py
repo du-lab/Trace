@@ -9,6 +9,8 @@ class MasterConfig():
     # MS Data must be in .mzML format. Convert using MSConvert from Proteowizard. Specify the path on your computer and include "r" before
     CENTROID_MS_PATH = r"C:\Users\jerry\Desktop\2016-03-15_EP03_D11_cell-E2-2.mzML"
     PROFILE_MS_PATH = r"C:\Users\jerry\Desktop\D11LE22.mzML"
+    MEAN_STD_IMGS_PATH = r"C:\Users\jerry\Desktop\Trace-master\Imgs_mean_std.txt"
+    MODEL_PATH = r"C:\Users\jerry\Desktop\Trace-master\pre-trained_models\model" #path to any pre-trained model but without the integer at the end
     # -----------------------------------
 
     # --------GENERAL PARAMETERS--------
@@ -45,3 +47,5 @@ class MasterConfig():
     #Constructor
     def __init__(self):
         pass
+
+params = MasterConfig()

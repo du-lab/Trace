@@ -8,23 +8,22 @@ import zlib
 import bisect as bs
 import xml.etree.cElementTree as et
 import struct
-
 from scipy.signal import convolve
 from scipy.stats import scoreatpercentile
 import scipy.stats as stats
 import scipy.signal as signal
 import matplotlib.pyplot as plt
-from MasterConfig import MasterConfig
+from MasterConfig import params
 from joblib import Parallel, delayed
 import multiprocessing as mp
 
 # https://stackoverflow.com/questions/21027477/joblib-parallel-multiple-cpus-slower-than-single
 
 ################### Important Paramenters To Be Changed ###################
-params = MasterConfig()
+
 mz_min = params.mz_min       # The minimum of m/z to be evaluated
 mz_max = params.mz_max       # The maximum of m/z to be evaluated
-mz_r  = params.mz_r       # The m/z bin for signal detection and evaluation (window is +/- this value)
+mz_r = params.mz_r       # The m/z bin for signal detection and evaluation (window is +/- this value)
 
 ms_freq = params.ms_freq       ## The scanning frequency of MS: spectrums/second. Change accordingly
 ################### Important Paramenters To Be Changed ###################
@@ -345,14 +344,13 @@ scan_time = []
 
 # pks_found = []
 ############################## Initial scan ############################################
-def scan_mp(centroid_file_mzML, RESULTS_PATH, NUM_C):
+def scan_mp(centroid_file_mzML, NUM_C):
     global spec_m
     global spec_i
     global scan_time
 
 
     fn1 = centroid_file_mzML  # File name to be changed. Remember to specify the folder location for this file.
-    fout = RESULTS_PATH + "/Initial_pks.txt"  # File for save the initial scaning results. To be changed
 
     spec_comp = []
     for event, elem in et.iterparse(fn1, ("start", "end")):
@@ -410,7 +408,6 @@ def scan_mp(centroid_file_mzML, RESULTS_PATH, NUM_C):
 
     pks_final = merge(pks_merged)
 
-    np.savetxt(fout, pks_final, fmt='%.4f', delimiter="  ")
     print('Initial screening done! Total peaks found: ', len(pks_final))
 
     return pks_final
