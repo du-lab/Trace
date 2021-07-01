@@ -34,6 +34,8 @@ if __name__ == '__main__':
     images_debug = pickle.load(open(params.RESULTS_PATH + "\\save2.p", "rb"))
 
     #Saving csv files
+    #TODO It's an unneceaary work to create a text file first, read it, and then create a csv file.
+    # Instead, add the code to create a csv file and remove the code to create a txt file. We shouldn't have any text files at all.
     initPeaks = pd.read_csv(params.RESULTS_PATH + "\Initial_pks.txt", delimiter="  ", header=None)
     initPeaks.columns = ['M/Z', 'Time', 'Intensity', 'Area', 'Snr']
     initPeaks.to_csv(params.RESULTS_PATH + "\Initial_pks.csv", index=None)
