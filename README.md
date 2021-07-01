@@ -18,8 +18,16 @@ Recent developments in high-resolution mass spectrometry (MS) technology enabled
 To run *Trace*, following software/libraries should be installed:
 
 - [Anaconda](https://www.anaconda.com/)
+<<<<<<< HEAD
 - [TensorFlow](https://www.tensorflow.org/)
 - [joblib==0.11](https://pypi.org/project/joblib/)
+=======
+- [TensorFlow == 1.15](https://www.tensorflow.org/)
+- [joblib==0.11](https://pypi.org/project/joblib/)
+- matplotlib
+- numpy
+- scikit-learn
+>>>>>>> 0c3ecb2a51dc155afa891cd7327e15653e82090a
 
 Other libraries may also be installed if not existent beforehand. For most of them, `pip install` would work. 
 

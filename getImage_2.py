@@ -24,8 +24,13 @@ def get_image( profile_file_mzML, pk_list, RESULTS_PATH, Big_RAM = 0, window_mz 
 
     for i in range(len(pk_list)):
 
+<<<<<<< HEAD
 
         print(('Extract image of signal NO.: ', i))
+=======
+        if i%50 ==0:
+            print(('Extract image of signal NO.: ', i))
+>>>>>>> 0c3ecb2a51dc155afa891cd7327e15653e82090a
 
         mz0 = float(pk_list[i][0])
         rt0 = float(pk_list[i][1])
@@ -63,6 +68,11 @@ def get_image( profile_file_mzML, pk_list, RESULTS_PATH, Big_RAM = 0, window_mz 
         images.append(np.reshape((area), window_mz * window_rt * 4))
 
     print(np.shape((images)))
+<<<<<<< HEAD
+=======
+    f2 = (RESULTS_PATH+ "/Images_pks.txt")   ##@@ To be changed @@##
+    np.savetxt(f2, images, fmt='%.1f',delimiter=' ')
+>>>>>>> 0c3ecb2a51dc155afa891cd7327e15653e82090a
 
     return images
 
