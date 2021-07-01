@@ -17,10 +17,13 @@ Recent developments in high-resolution mass spectrometry (MS) technology enabled
 
 To run *Trace*, following software/libraries should be installed:
 
-- [Anaconda](https://www.anaconda.com/)
-- [TensorFlow == 1.15](https://www.tensorflow.org/)
-- [joblib == 0.11](https://pypi.org/project/joblib/)
 - Check `requirements.txt` for all dependencies
+- CD to the directory where requirements.txt is located
+- Activate your virtualenv
+- Run this line in your shell
+```
+pip install -r requirements.txt 
+```
 
 Other libraries may also be installed if not existent beforehand. For most of them, `pip install` would work. 
 
@@ -47,6 +50,7 @@ import mzmlReadRaw as read
 
 ### Adjust Parameters
 Reference parameter descriptions at: https://drive.google.com/file/d/1sFaYOJhUzy4CGAyHIkhhx4Vdc1x7Sx9x/view?usp=sharing
+Check `MasterConfig.py` for all variables that are adjustable, such as necessary file paths.
 Change any parameter using the params object:
 ```
 from MasterConfig import params
