@@ -5,11 +5,9 @@ import sys
 import os
 import tensorflow as tf
 import math
-<<<<<<< HEAD
-from MasterConfig import params
-=======
 
->>>>>>> 0c3ecb2a51dc155afa891cd7327e15653e82090a
+from MasterConfig import params
+
 import numpy as np
 import sys
 import random
@@ -38,15 +36,14 @@ def max_pool_2x2(x):
                           strides=[1, 2, 2, 1], padding='SAME')
 
 ############ Deep Learning Training Process#########################
-<<<<<<< HEAD
+
 def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = False):
 
     images0 = np.loadtxt(params.MEAN_STD_IMGS_PATH)
-=======
+
 def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = None):
 
-    images0 = np.loadtxt(r"C:\Users\jerry\Desktop\Trace-master\Imgs_mean_std.txt")
->>>>>>> 0c3ecb2a51dc155afa891cd7327e15653e82090a
+    images0 = np.loadtxt(params.MEAN_STD_IMGS_PATH)
     mean_img = images0[0]
     std_img = images0[1]
 
@@ -115,11 +112,8 @@ def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = None):
 
         saver = tf.train.Saver()
         #saver.restore(sess, tf.train.latest_checkpoint('./models/'))   
-<<<<<<< HEAD
+
         saver.restore(sess, params.MODEL_PATH + str(jj) )
-=======
-        saver.restore(sess, r"C:\Users\jerry\Desktop\Trace-master\pre-trained_models\model" + str(jj) )
->>>>>>> 0c3ecb2a51dc155afa891cd7327e15653e82090a
         
         print ('TF model ' + str(jj) + ' loaded done!! ')
 
@@ -192,11 +186,5 @@ def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = None):
         for j in range(np.shape(target_pks)[0]):
             target_pks[j].extend([k_label[j]])
 
-<<<<<<< HEAD
-=======
-    f1 = RESULTS_PATH+ "/Final_pks.txt"
-    np.savetxt(f1, target_pks, fmt='%.3f',delimiter=' ')
-
->>>>>>> 0c3ecb2a51dc155afa891cd7327e15653e82090a
     return target_pks
 

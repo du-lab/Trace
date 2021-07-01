@@ -8,33 +8,22 @@ import zlib
 import bisect as bs
 import xml.etree.cElementTree as et
 import struct
-<<<<<<< HEAD
-=======
 
->>>>>>> 0c3ecb2a51dc155afa891cd7327e15653e82090a
 from scipy.signal import convolve
 from scipy.stats import scoreatpercentile
 import scipy.stats as stats
 import scipy.signal as signal
 import matplotlib.pyplot as plt
-<<<<<<< HEAD
-from MasterConfig import params
-=======
 
->>>>>>> 0c3ecb2a51dc155afa891cd7327e15653e82090a
+from MasterConfig import params
 from joblib import Parallel, delayed
 import multiprocessing as mp
 
 # https://stackoverflow.com/questions/21027477/joblib-parallel-multiple-cpus-slower-than-single
 
 ################### Important Paramenters To Be Changed ###################
-<<<<<<< HEAD
 
-<<<<<<< HEAD
-=======
 #TODO You shouldn't create MasterConfig() here. Pass the `params` from `Trace.py` instead
-params = MasterConfig()
->>>>>>> 3a79d94e4b43a2239d1f8896159991ae7884cf6b
 mz_min = params.mz_min       # The minimum of m/z to be evaluated
 mz_max = params.mz_max       # The maximum of m/z to be evaluated
 mz_r = params.mz_r       # The m/z bin for signal detection and evaluation (window is +/- this value)
@@ -51,32 +40,12 @@ min_length  = int(len(widths)*0.2)  # org: 0.25
 min_snr = params.min_snr  # org: 8. This is the Signal Noise Ratio for the wavelet and may needed to be adjusted.
 perc= params.perc
 
-=======
-mz_min = 50  # The minimum of m/z to be evaluated
-mz_max = 370  # The maximum of m/z to be evaluated
-mz_r = 0.0050  # The m/z bin for signal detection and evaluation (window is +/- this value)
-
-ms_freq = 45  ## The scanning frequency of MS: spectrums/second. Change accordingly
-################### Important Paramenters To Be Changed ###################
-
-################### Important Paramenters ###################
-min_len_eic = 6  ## Minimum length of a EIC to be scanned by CWT
-widths = np.asarray([i for i in range(1, int(10 * ms_freq), 1)] + [int(20 * ms_freq)])
-gap_thresh = np.ceil(widths[0])
-window_size = 30
-min_length = int(len(widths) * 0.2)  # org: 0.25
-min_snr = 45  # org: 8. This is the Signal Noise Ratio for the wavelet and may needed to be adjusted.
-perc = 90
->>>>>>> 0c3ecb2a51dc155afa891cd7327e15653e82090a
 
 ############################################
 Pick_mlist = np.arange(mz_min, mz_max, mz_r)
 max_distances = widths / 4.0
-<<<<<<< HEAD
 max_scale_for_peak = params.max_scale_for_peak
-=======
 max_scale_for_peak = 18
->>>>>>> 0c3ecb2a51dc155afa891cd7327e15653e82090a
 hf_window = int(0.5 * window_size)
 
 
@@ -379,21 +348,14 @@ scan_time = []
 
 # pks_found = []
 ############################## Initial scan ############################################
-<<<<<<< HEAD
+
 def scan_mp(centroid_file_mzML, NUM_C):
-=======
-def scan_mp(centroid_file_mzML, RESULTS_PATH, NUM_C):
->>>>>>> 0c3ecb2a51dc155afa891cd7327e15653e82090a
     global spec_m
     global spec_i
     global scan_time
 
 
     fn1 = centroid_file_mzML  # File name to be changed. Remember to specify the folder location for this file.
-<<<<<<< HEAD
-=======
-    fout = RESULTS_PATH + "/Initial_pks.txt"  # File for save the initial scaning results. To be changed
->>>>>>> 0c3ecb2a51dc155afa891cd7327e15653e82090a
 
     spec_comp = []
     for event, elem in et.iterparse(fn1, ("start", "end")):
@@ -451,10 +413,6 @@ def scan_mp(centroid_file_mzML, RESULTS_PATH, NUM_C):
 
     pks_final = merge(pks_merged)
 
-<<<<<<< HEAD
-=======
-    np.savetxt(fout, pks_final, fmt='%.4f', delimiter="  ")
->>>>>>> 0c3ecb2a51dc155afa891cd7327e15653e82090a
     print('Initial screening done! Total peaks found: ', len(pks_final))
 
     return pks_final

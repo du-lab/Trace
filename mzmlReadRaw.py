@@ -154,7 +154,7 @@ def extract_area(inputfile, pos_rt1, pos_rt2, pos_mz1, pos_mz2):
 
             unpackedData = unpack(fmt, decodedData)
             spec_i = np.array(list(unpackedData))
-<<<<<<< HEAD
+
             x = spec_i[pos_mz1: pos_mz2]
             # area.append(spec_i[pos_mz1: pos_mz2]) #original
             if (pos_mz2 > len(spec_i)):
@@ -163,9 +163,7 @@ def extract_area(inputfile, pos_rt1, pos_rt2, pos_mz1, pos_mz2):
                 else:
                     x = np.concatenate((x, np.zeros(pos_mz2 - pos_mz1)))
             area.append(x)
-=======
-            area.append(spec_i[pos_mz1: pos_mz2])
->>>>>>> 0c3ecb2a51dc155afa891cd7327e15653e82090a
+
 
     return area
 
