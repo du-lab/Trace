@@ -5,12 +5,13 @@ class MasterConfig():
     #Reference parameter descriptions at: https://pubs.acs.org/doi/suppl/10.1021/acs.analchem.8b05985/suppl_file/ac8b05985_si_001.pdf
 
     # --------------PATHS---------------
+    #Do not need to create the directories
     RESULTS_PATH = r"C:\Users\jerry\Desktop\Results"
     # MS Data must be in .mzML format. Convert using MSConvert from Proteowizard. Specify the path on your computer and include "r" before
     CENTROID_MS_PATH = r"C:\Users\jerry\Desktop\2016-03-15_EP03_D11_cell-E2-2.mzML"
     PROFILE_MS_PATH = r"C:\Users\jerry\Desktop\D11LE22.mzML"
     MEAN_STD_IMGS_PATH = r"C:\Users\jerry\Desktop\Trace-master\Imgs_mean_std.txt"
-    MODEL_PATH = r"C:\Users\jerry\Desktop\Trace-master\pre-trained_models\model" #path to any pre-trained model but without the integer at the end
+    MODEL_PATH = r"C:\Users\jerry\Desktop\Trace-master\pre-trained_models\model" #path to any pre-trained model but without the model number at the end
     # -----------------------------------
 
     # --------GENERAL PARAMETERS--------
@@ -42,7 +43,7 @@ class MasterConfig():
     hf_window = int(0.5 * window_size)
     # ----------------------------------
 
-    # ADD DEEP LEARNING PARAMETERS HERE
+    # ADD DEEP LEARNING PARAMETERS HERE IF NEEDED
 
     #Constructor
     def __init__(self):

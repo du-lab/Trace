@@ -21,7 +21,6 @@ To run *Trace*, following software/libraries should be installed:
 - [TensorFlow == 1.15](https://www.tensorflow.org/)
 - [joblib == 0.11](https://pypi.org/project/joblib/)
 - Check requirements.txt for all dependencies
->>>>>>> 0c3ecb2a51dc155afa891cd7327e15653e82090a
 
 Other libraries may also be installed if not existent beforehand. For most of them, `pip install` would work. 
 
