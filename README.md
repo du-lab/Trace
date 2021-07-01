@@ -38,7 +38,7 @@ While the pre-trained model is provided under default settings for our CE-ESI-MS
 
 ## Usage
 
-### Read raw files
+### Read Raw Files
 Read raw files through `mzmlReadRaw.py` and the `init_scan()` function. 
 ```
 import mzmlReadRaw as read
@@ -63,7 +63,15 @@ python TRACE.py
 
 ### Results
 After running the code, a folder called "`Results`" will be generated (if not existent) and the result files will be saved under that folder. These files will be generated:
-
+Additionally, view the result numpy arrays and dataframes in `TraceResults.py` and the `results` object. Access arrays through:
+```
+from TraceResults import results
+results.initial_peaks
+results.final_peaks
+results.images_peaks
+results.dataFrameInitPeaks 
+results.dataFrameFinalPeaks 
+```
 
 | Output File &nbsp; &nbsp; &nbsp; &nbsp;  | Description |
 | ---- | --- |

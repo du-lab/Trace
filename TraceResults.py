@@ -10,3 +10,5 @@ class Results():
     dataFrameFinalPeaks = [] #dataframe for final peaks
     def __init__(self):
         pass
+
+results = Results()

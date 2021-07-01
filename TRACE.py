@@ -7,12 +7,10 @@ from predict_3 import predict
 import multiprocessing as mp
 import pickle
 from MasterConfig import params
-from TraceResults import Results
+from TraceResults import results
 import pandas as pd
 
 if __name__ == '__main__':
-    #Create results class
-    results = Results()
 
     if not os.path.isdir(params.RESULTS_PATH):   ## Will create a folder for results if not existent.
         os.makedirs(params.RESULTS_PATH)
