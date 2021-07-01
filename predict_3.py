@@ -37,11 +37,8 @@ def max_pool_2x2(x):
 
 ############ Deep Learning Training Process#########################
 
+
 def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = False):
-
-    images0 = np.loadtxt(params.MEAN_STD_IMGS_PATH)
-
-def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = None):
 
     images0 = np.loadtxt(params.MEAN_STD_IMGS_PATH)
     mean_img = images0[0]
@@ -185,6 +182,5 @@ def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = None):
 
         for j in range(np.shape(target_pks)[0]):
             target_pks[j].extend([k_label[j]])
-
     return target_pks
 

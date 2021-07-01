@@ -11,25 +11,25 @@ from TraceResults import Results
 import pandas as pd
 
 if __name__ == '__main__':
-    #Create config and results objects for GUI usage
+    #Create results class
     results = Results()
 
     if not os.path.isdir(params.RESULTS_PATH):   ## Will create a folder for results if not existent.
         os.makedirs(params.RESULTS_PATH)
 
     ## First step: CWT and initial scanning
-    #pks_initial = scan_mp(params.CENTROID_MS_PATH, NUM_C=params.NUM_C)  ##
+    pks_initial = scan_mp(params.CENTROID_MS_PATH, NUM_C=params.NUM_C)  ##
 
-    #results.initial_peaks = pks_initial
-    #pickle.dump(pks_initial, open(params.RESULTS_PATH + "\\save.p", "wb"))
+    results.initial_peaks = pks_initial
+    pickle.dump(pks_initial, open(params.RESULTS_PATH + "\\save.p", "wb"))
 
     ## Second step: Signal image evaluation.
     pks_initial_debug = pickle.load(open(params.RESULTS_PATH + "\\save.p", "rb"))
 
-    #images = get_image(params.PROFILE_MS_PATH, pks_initial_debug, params.RESULTS_PATH, params.Big_RAM, params.window_mz, params.window_rt)
-    #results.images_peaks = images
+    images = get_image(params.PROFILE_MS_PATH, pks_initial_debug, params.RESULTS_PATH, params.Big_RAM, params.window_mz, params.window_rt)
+    results.images_peaks = images
 
-    #pickle.dump(images, open(params.RESULTS_PATH + "\\save2.p", "wb"))
+    pickle.dump(images, open(params.RESULTS_PATH + "\\save2.p", "wb"))
     images_debug = pickle.load(open(params.RESULTS_PATH + "\\save2.p", "rb"))
 
 

@@ -23,13 +23,11 @@ import multiprocessing as mp
 
 ################### Important Paramenters To Be Changed ###################
 
-#TODO You shouldn't create MasterConfig() here. Pass the `params` from `Trace.py` instead
 mz_min = params.mz_min       # The minimum of m/z to be evaluated
 mz_max = params.mz_max       # The maximum of m/z to be evaluated
 mz_r = params.mz_r       # The m/z bin for signal detection and evaluation (window is +/- this value)
 
 ms_freq = params.ms_freq       ## The scanning frequency of MS: spectrums/second. Change accordingly
-################### Important Paramenters To Be Changed ###################
 
 ################### Important Paramenters ###################
 min_len_eic = params.min_len_eic  ## Minimum length of a EIC to be scanned by CWT
@@ -38,14 +36,13 @@ gap_thresh = np.ceil(widths[0])
 window_size = params.window_size
 min_length  = int(len(widths)*0.2)  # org: 0.25
 min_snr = params.min_snr  # org: 8. This is the Signal Noise Ratio for the wavelet and may needed to be adjusted.
-perc= params.perc
+perc = params.perc
 
 
 ############################################
 Pick_mlist = np.arange(mz_min, mz_max, mz_r)
 max_distances = widths / 4.0
 max_scale_for_peak = params.max_scale_for_peak
-max_scale_for_peak = 18
 hf_window = int(0.5 * window_size)
 
 
@@ -392,7 +389,7 @@ def scan_mp(centroid_file_mzML, NUM_C):
 
                 fmt = "{endian}{arraylength}{floattype}".format(endian = "<", arraylength=spec_len, floattype=spec_type)
                 unpackedData = unpack(fmt, decodedData)
-                print("Data type/length/example ", spec_name, len(unpackedData), unpackedData[0:2])
+                #print("Data type/length/example ", spec_name, len(unpackedData), unpackedData[0:2])
 
 
                 if spec_name == 'mz':
