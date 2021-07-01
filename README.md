@@ -38,7 +38,7 @@ While the pre-trained model is provided under default settings for our CE-ESI-MS
 
 ## Usage
 
-###Adjust Parameters
+### Adjust Parameters
 Reference parameter descriptions at: https://pubs.acs.org/doi/suppl/10.1021/acs.analchem.8b05985/suppl_file/ac8b05985_si_001.pdf
 Change any parameter using the params object:
 ```
