@@ -33,6 +33,19 @@ if __name__ == '__main__':
     pickle.dump(images, open(params.RESULTS_PATH + "\\save2.p", "wb"))
     images_debug = pickle.load(open(params.RESULTS_PATH + "\\save2.p", "rb"))
 
+<<<<<<< HEAD
+=======
+    #Saving csv files
+    #TODO It's an unneceaary work to create a text file first, read it, and then create a csv file.
+    # Instead, add the code to create a csv file and remove the code to create a txt file. We shouldn't have any text files at all.
+    initPeaks = pd.read_csv(params.RESULTS_PATH + "\Initial_pks.txt", delimiter="  ", header=None)
+    initPeaks.columns = ['M/Z', 'Time', 'Intensity', 'Area', 'Snr']
+    initPeaks.to_csv(params.RESULTS_PATH + "\Initial_pks.csv", index=None)
+    finalPeaks = pd.read_csv(params.RESULTS_PATH + "\Final_pks.txt", delimiter=" ", header=None)
+    finalPeaks.columns = ['M/Z', 'Time', 'Intensity', 'Area', 'Snr', 'Peak Membership', 'Peak Membership']
+    finalPeaks.to_csv(params.RESULTS_PATH + "\Final_pks.csv", index=None)
+
+>>>>>>> 3a79d94e4b43a2239d1f8896159991ae7884cf6b
     ## Final prediction
     pks_final = predict(images_debug, pks_initial_debug, RESULTS_PATH=params.RESULTS_PATH, K_means=params.K_MEANS, PLOT_IMG=params.Plot_images)
     results.final_peaks = pks_final

@@ -28,8 +28,13 @@ import multiprocessing as mp
 # https://stackoverflow.com/questions/21027477/joblib-parallel-multiple-cpus-slower-than-single
 
 ################### Important Paramenters To Be Changed ###################
+<<<<<<< HEAD
 
 <<<<<<< HEAD
+=======
+#TODO You shouldn't create MasterConfig() here. Pass the `params` from `Trace.py` instead
+params = MasterConfig()
+>>>>>>> 3a79d94e4b43a2239d1f8896159991ae7884cf6b
 mz_min = params.mz_min       # The minimum of m/z to be evaluated
 mz_max = params.mz_max       # The maximum of m/z to be evaluated
 mz_r = params.mz_r       # The m/z bin for signal detection and evaluation (window is +/- this value)
