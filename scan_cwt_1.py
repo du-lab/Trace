@@ -15,6 +15,7 @@ import scipy.stats as stats
 import scipy.signal as signal
 import matplotlib.pyplot as plt
 
+from MasterConfig import params
 from joblib import Parallel, delayed
 import multiprocessing as mp
 
@@ -22,26 +23,26 @@ import multiprocessing as mp
 
 ################### Important Paramenters To Be Changed ###################
 
-mz_min = 50  # The minimum of m/z to be evaluated
-mz_max = 370  # The maximum of m/z to be evaluated
-mz_r = 0.0050  # The m/z bin for signal detection and evaluation (window is +/- this value)
+mz_min = params.mz_min       # The minimum of m/z to be evaluated
+mz_max = params.mz_max       # The maximum of m/z to be evaluated
+mz_r = params.mz_r       # The m/z bin for signal detection and evaluation (window is +/- this value)
 
-ms_freq = 45  ## The scanning frequency of MS: spectrums/second. Change accordingly
-################### Important Paramenters To Be Changed ###################
+ms_freq = params.ms_freq       ## The scanning frequency of MS: spectrums/second. Change accordingly
 
 ################### Important Paramenters ###################
-min_len_eic = 6  ## Minimum length of a EIC to be scanned by CWT
-widths = np.asarray([i for i in range(1, int(10 * ms_freq), 1)] + [int(20 * ms_freq)])
+min_len_eic = params.min_len_eic  ## Minimum length of a EIC to be scanned by CWT
+widths=np.asarray( [i for i in range(1,int(10*ms_freq),1)] + [int(20*ms_freq)] )
 gap_thresh = np.ceil(widths[0])
-window_size = 30
-min_length = int(len(widths) * 0.2)  # org: 0.25
-min_snr = 45  # org: 8. This is the Signal Noise Ratio for the wavelet and may needed to be adjusted.
-perc = 90
+window_size = params.window_size
+min_length  = int(len(widths)*0.2)  # org: 0.25
+min_snr = params.min_snr  # org: 8. This is the Signal Noise Ratio for the wavelet and may needed to be adjusted.
+perc = params.perc
+
 
 ############################################
 Pick_mlist = np.arange(mz_min, mz_max, mz_r)
 max_distances = widths / 4.0
-max_scale_for_peak = 18
+max_scale_for_peak = params.max_scale_for_peak
 hf_window = int(0.5 * window_size)
 
 
@@ -344,14 +345,14 @@ scan_time = []
 
 # pks_found = []
 ############################## Initial scan ############################################
-def scan_mp(centroid_file_mzML, RESULTS_PATH, NUM_C):
+
+def scan_mp(centroid_file_mzML, NUM_C):
     global spec_m
     global spec_i
     global scan_time
 
 
     fn1 = centroid_file_mzML  # File name to be changed. Remember to specify the folder location for this file.
-    fout = RESULTS_PATH + "/Initial_pks.txt"  # File for save the initial scaning results. To be changed
 
     spec_comp = []
     for event, elem in et.iterparse(fn1, ("start", "end")):
@@ -388,7 +389,7 @@ def scan_mp(centroid_file_mzML, RESULTS_PATH, NUM_C):
 
                 fmt = "{endian}{arraylength}{floattype}".format(endian = "<", arraylength=spec_len, floattype=spec_type)
                 unpackedData = unpack(fmt, decodedData)
-                print("Data type/length/example ", spec_name, len(unpackedData), unpackedData[0:2])
+                #print("Data type/length/example ", spec_name, len(unpackedData), unpackedData[0:2])
 
 
                 if spec_name == 'mz':
@@ -409,7 +410,6 @@ def scan_mp(centroid_file_mzML, RESULTS_PATH, NUM_C):
 
     pks_final = merge(pks_merged)
 
-    np.savetxt(fout, pks_final, fmt='%.4f', delimiter="  ")
     print('Initial screening done! Total peaks found: ', len(pks_final))
 
     return pks_final

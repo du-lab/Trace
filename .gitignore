@@ -45,6 +45,8 @@ htmlcov/
 .coverage.*
 .cache
 nosetests.xml
+workspace.xml
+tasks.xml
 coverage.xml
 *.cover
 *.py,cover
@@ -133,3 +135,4 @@ trace-online.iml
 vcs.xml
 profiles_settings.xml
 Trace.iml
+debug.log
