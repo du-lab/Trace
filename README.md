@@ -49,8 +49,8 @@ import mzmlReadRaw as read
 ```
 
 ### Adjust Parameters
-Reference parameter descriptions at: https://drive.google.com/file/d/1sFaYOJhUzy4CGAyHIkhhx4Vdc1x7Sx9x/view?usp=sharing
-Check `MasterConfig.py` for all variables that are adjustable, such as necessary file paths.
+Reference parameter descriptions at: https://drive.google.com/file/d/1sFaYOJhUzy4CGAyHIkhhx4Vdc1x7Sx9x/view?usp=sharing. 
+Check `MasterConfig.py` for all variables that are adjustable, such as all necessary file paths that must be initialized.
 Change any parameter using the params object:
 ```
 from MasterConfig import params
@@ -67,7 +67,7 @@ python TRACE.py
 
 ### Results
 After running the code, a folder called "`Results`" will be generated (if not existent) and the result files will be saved under that folder. These files will be generated:
-Additionally, view the result numpy arrays and dataframes in `TraceResults.py` and the `results` object. Access arrays through:
+Additionally, view the result numpy arrays and dataframes in `TraceResults.py` and the `results` object. Access these results by running this code in the directory:
 ```
 from TraceResults import results
 results.initial_peaks
