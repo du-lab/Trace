@@ -46,12 +46,14 @@ htmlcov/
 .cache
 nosetests.xml
 workspace.xml
+vcs.xml
 tasks.xml
 coverage.xml
 *.cover
 *.py,cover
 .hypothesis/
 .pytest_cache/
+.idea/
 
 # Translations
 *.mo
