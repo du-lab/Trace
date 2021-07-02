@@ -45,6 +45,8 @@ htmlcov/
 .coverage.*
 .cache
 nosetests.xml
+workspace.xml
+tasks.xml
 coverage.xml
 *.cover
 *.py,cover
@@ -134,3 +136,5 @@ vcs.xml
 profiles_settings.xml
 Trace.iml
 .vscode/settings.json
+debug.log
+.idea

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+  <div class="col-md-9" style="border-right-style: solid;">
+
+    <div style="border: solid; padding: 100px 200px;">
+      <h2>Plot</h2>
+    </div><br>
+
+    <h3>Parameters</h3>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active">
+        <a href="#peakdetect" aria-controls="peak" role="tab" data-toggle="tab">Peak Detection</a>
+      </li>
+      <li role="presentation">
+        <a href="#imagegenerate" aria-controls="image" role="tab" data-toggle="tab">Image Generation</a>
+      </li>
+      <li role="presentation">
+        <a href="#prediction" aria-controls="prediction" role="tab" data-toggle="tab">Prediction</a>
+      </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="peakdetect">
+        <p>Input field 1</p>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="imagegenerate">
+        <p>Input field 2</p>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="prediction">
+        <p>Input field 3</p>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}
