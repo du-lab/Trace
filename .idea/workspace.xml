@@ -16,20 +16,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="941ac1ad-0511-4d9e-9829-222ed7f4368f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/trace-cli/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Imgs_mean_std.txt" beforeDir="false" afterPath="$PROJECT_DIR$/trace-cli/Imgs_mean_std.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MasterConfig.py" beforeDir="false" afterPath="$PROJECT_DIR$/trace-cli/MasterConfig.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/trace-cli/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TRACE.py" beforeDir="false" afterPath="$PROJECT_DIR$/trace-cli/TRACE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TraceResults.py" beforeDir="false" afterPath="$PROJECT_DIR$/trace-cli/TraceResults.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Training_Model.py" beforeDir="false" afterPath="$PROJECT_DIR$/trace-cli/Training_Model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/getImage_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/trace-cli/getImage_2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mzmlReadRaw.py" beforeDir="false" afterPath="$PROJECT_DIR$/trace-cli/mzmlReadRaw.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/predict_3.py" beforeDir="false" afterPath="$PROJECT_DIR$/trace-cli/predict_3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/trace-cli/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scan_cwt_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/trace-cli/scan_cwt_1.py" afterDir="false" />
-    </list>
+    <list default="true" id="941ac1ad-0511-4d9e-9829-222ed7f4368f" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -147,12 +134,13 @@
     </state>
     <state x="698" y="344" key="#Notifications/0.0.1920.1040/1920.-372.2048.1112@0.0.1920.1040" timestamp="1622069621706" />
     <state x="2339" y="-139" key="#Notifications/0.0.1920.1050/1920.-806.1152.2018@1920.-806.1152.2018" timestamp="1623167682781" />
-    <state x="449" y="205" width="1089" height="761" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1625096377121">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state x="2369" y="197" width="1089" height="761" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1625248232442">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="449" y="197" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.-372.1152.2008@0.0.1920.1040" timestamp="1622780944119" />
     <state x="449" y="197" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.-372.2048.1112@0.0.1920.1040" timestamp="1622070932042" />
     <state x="2399" y="-161" width="1089" height="761" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.-372.2048.1112@1920.-372.2048.1112" timestamp="1622048051686" />
+    <state x="2369" y="197" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1625248232442" />
     <state x="449" y="205" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080/1920.0.1920.1080@0.0.1920.1080" timestamp="1625096377121" />
     <state x="669" y="322" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1622729748155">
       <screen x="0" y="0" width="1920" height="1040" />
