@@ -24,5 +24,9 @@ def upload():
         file2.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename2))
         session['filepath1'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename1)
         session['filepath2'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename2)
-        return redirect(url_for('index'))
+        return redirect(url_for('parameters'))
     return render_template('upload.html', title="Upload", form=form)
+
+@app.route('/parameters', methods=["GET", "POST"])
+def parameters():
+    return render_template('parameters.html', title="Parameters")
