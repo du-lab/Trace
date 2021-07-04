@@ -6,41 +6,59 @@ from getImage_2 import get_image
 from predict_3 import predict
 import multiprocessing as mp
 import pickle
+import time
 from MasterConfig import params
-from TraceResults import results
+from MasterConfig import MasterConfig
+from TraceResults import Peak
+from TraceResults import allPeaksResults
 import pandas as pd
+import logging
 
-if __name__ == '__main__':
+#Call this function after main()
+def exportCSV():
+    # Saving dataframe to Results class and CSV files
+    peakarrform = []
+    for peak in allPeaksResults.allPeaks:
+        peakarrform.append([peak.mz, peak.time, peak.height, peak.area, peak.snr, peak.prediction])
+    dataFrameFinalPeaks = pd.DataFrame(peakarrform ,columns=['M/Z', 'Time', 'Intensity', 'Area', 'Snr', 'Peak Prediction'])
+    dataFrameFinalPeaks.to_csv(params.RESULTS_PATH + "\Final_pks.csv")
 
+#Returns an array of Peak objects storing certain parameters and the prediction of true or false
+def main(parameters):
+    if os.path.exists(params.LOGGING_PATH):
+        os.remove(params.LOGGING_PATH)
+    time.sleep(10)
+    logger = logging.getLogger()
+    logger.propagate = False
+    fhandler = logging.FileHandler(filename=params.LOGGING_PATH, mode='a')
+    formatter = logging.Formatter('%(message)s')
+    fhandler.setFormatter(formatter)
+    logger.addHandler(fhandler)
+    logger.setLevel(logging.CRITICAL)
+
+    logging.critical('Starting Trace...\n')
+    logging.critical('\nGeneral Parameters:\nResults Path: {}\nCentroid MS Path: {}\nProfile MS Path: {}\nCores: {}\nWindow M/Z: {}\nWindow Time: {}\nMin M/Z: {}\nMax M/Z: {}\nM/Z Bin: {}\nMS Frequency: {}\n\nCWT Parameters:\nMin Length Of EIC To Be Scanned: {}\nWindow Size: {}\nSNR For Wavelet: {}\nMax Scale For Peak: {}\n'.format(params.RESULTS_PATH, params.CENTROID_MS_PATH, params.PROFILE_MS_PATH, params.NUM_C, params.window_mz, params.window_rt, params.mz_min,params.mz_max,params.mz_r, params.ms_freq, params.min_len_eic, params.window_size, params.min_snr,params.max_scale_for_peak ))
     if not os.path.isdir(params.RESULTS_PATH):   ## Will create a folder for results if not existent.
         os.makedirs(params.RESULTS_PATH)
 
     ## First step: CWT and initial scanning
-    pks_initial = scan_mp(params.CENTROID_MS_PATH, NUM_C=params.NUM_C)  ##
+    #pks_initial = scan_mp(params.CENTROID_MS_PATH, NUM_C=params.NUM_C)  ##
 
-    results.initial_peaks = pks_initial
-    pickle.dump(pks_initial, open(params.RESULTS_PATH + "\\save.p", "wb"))
+    #pickle.dump(pks_initial, open(params.RESULTS_PATH + "\\save.p", "wb"))
 
     ## Second step: Signal image evaluation.
-    pks_initial_debug = pickle.load(open(params.RESULTS_PATH + "\\save.p", "rb"))
-
-    images = get_image(params.PROFILE_MS_PATH, pks_initial_debug, params.RESULTS_PATH, params.Big_RAM, params.window_mz, params.window_rt)
-    results.images_peaks = images
-
-    pickle.dump(images, open(params.RESULTS_PATH + "\\save2.p", "wb"))
-    images_debug = pickle.load(open(params.RESULTS_PATH + "\\save2.p", "rb"))
+    #pks_initial_debug = pickle.load(open(params.RESULTS_PATH + "\\save.p", "rb"))
+    #peaks_with_images = get_image(params.PROFILE_MS_PATH, pks_initial_debug, params.RESULTS_PATH, params.Big_RAM, params.window_mz, params.window_rt)
+    #pickle.dump(peaks_with_images, open(params.RESULTS_PATH + "\\save2.p", "wb"))
 
 
     ## Final prediction
-    pks_final = predict(images_debug, pks_initial_debug, RESULTS_PATH=params.RESULTS_PATH, K_means=params.K_MEANS, PLOT_IMG=params.Plot_images)
-    results.final_peaks = pks_final
+    peaks_with_images_debug = pickle.load(open(params.RESULTS_PATH + "\\save2.p", "rb"))
+    pks_final = predict(peaks_with_images_debug, RESULTS_PATH=params.RESULTS_PATH, K_means=params.K_MEANS, PLOT_IMG=params.Plot_images)
+    logging.critical('\nDone! Final disk results in {} folder.'.format(params.RESULTS_PATH))
+    allPeaksResults.allPeaks = pks_final
+    return pks_final
 
-    # Saving dataframe to Results class and CSV files
-    results.dataFrameInitPeaks = pd.DataFrame(pks_initial_debug, columns=['M/Z', 'Time', 'Intensity', 'Area', 'Snr'])
-    results.dataFrameFinalPeaks = pd.DataFrame(pks_final, columns=['M/Z', 'Time', 'Intensity', 'Area', 'Snr', 'Peak Membership', 'Peak Membership'])
-    results.dataFrameInitPeaks.to_csv(params.RESULTS_PATH + "\Initial_pks.csv")
-    results.dataFrameFinalPeaks.to_csv(params.RESULTS_PATH + "\Final_pks.csv")
-
-    print ('Done! Final results in ' + params.RESULTS_PATH + ' folder.')
-
-
+if __name__ == '__main__':
+    main(params)
+    exportCSV()

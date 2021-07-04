@@ -2,9 +2,10 @@ import sys
 import numpy as np
 import bisect as bs
 import mzmlReadRaw as read
-
+from TraceResults import Peak
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+import logging
 
 
 def get_image( profile_file_mzML, pk_list, RESULTS_PATH, Big_RAM = 0, window_mz = 6, window_rt = 30 ):   ## Add a choice of big RAM or not ###
@@ -26,30 +27,37 @@ def get_image( profile_file_mzML, pk_list, RESULTS_PATH, Big_RAM = 0, window_mz 
 
 
         print(('Extract image of signal NO.: ', i))
+        if (i%100 == 0):
+            logging.critical('Extracting image of signal {}'.format(i))
 
 
-        mz0 = float(pk_list[i][0])
-        rt0 = float(pk_list[i][1])
+        mz0 = float(pk_list[i].mz)
+        rt0 = float(pk_list[i].time) #change
         
         pos_mz=bs.bisect_left(mz_list, mz0)
         pos_mz1 = pos_mz - window_mz
-        pos_mz2 = pos_mz + window_mz
+        pos_mz2 = pos_mz + window_mz# from pos1 to pos2 time save to peak.mz_values
+
         if pos_mz2 >= len(mz_list):
             pos_mz1 = len(mz_list)- window_mz*2
             pos_mz2 = len(mz_list)
         elif pos_mz1 < 0:
             pos_mz1 = 0
             pos_mz2 = 2*window_mz
+
+        pk_list[i].mz_values = scan_t[pos_mz1:pos_mz2]
         
         pos_rt=bs.bisect_left(scan_t, rt0)
         pos_rt1 = pos_rt-window_rt
-        pos_rt2 = pos_rt+window_rt
+        pos_rt2 = pos_rt+window_rt #from pos1 to pos2 time save to peak.times
         if pos_rt2 >= len(scan_t):
             pos_rt1 = len(scan_t) - window_rt*2
             pos_rt2 = len(scan_t)
         elif pos_rt1 < 0:
             pos_rt1 = 0
             pos_rt2 = 2*window_rt
+
+        pk_list[i].times = scan_t[pos_rt1:pos_rt2]
 
         area = []
         if Big_RAM > 0:
@@ -61,11 +69,11 @@ def get_image( profile_file_mzML, pk_list, RESULTS_PATH, Big_RAM = 0, window_mz 
         else:
             area = read.extract_area(inputfile, pos_rt1, pos_rt2, pos_mz1, pos_mz2)
 
-        images.append(np.reshape((area), window_mz * window_rt * 4))
+        pk_list[i].image = (np.reshape((area), window_mz * window_rt * 4))
 
-    print(np.shape((images)))
-
-    return images
+    print(np.shape(pk_list))
+    logging.critical('\nImage extraction complete\n')
+    return pk_list
 
 
 

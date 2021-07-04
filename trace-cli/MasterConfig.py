@@ -1,7 +1,7 @@
 import numpy as np
 
 #Configure Parameters For All Modules and GUI
-class MasterConfig():
+class MasterConfig:
     #Reference parameter descriptions at: https://drive.google.com/file/d/1sFaYOJhUzy4CGAyHIkhhx4Vdc1x7Sx9x/view?usp=sharing
 
     # --------------PATHS---------------
@@ -11,14 +11,14 @@ class MasterConfig():
     CENTROID_MS_PATH = r"C:\Users\jerry\Desktop\2016-03-15_EP03_D11_cell-E2-2.mzML"
     PROFILE_MS_PATH = r"C:\Users\jerry\Desktop\D11LE22.mzML"
     MEAN_STD_IMGS_PATH = r"C:\Users\jerry\Desktop\Trace-master\trace-cli\Imgs_mean_std.txt"
-    MODEL_PATH = r"C:\Users\jerry\Desktop\Trace-master\trace-cli\pre-trained_models\model" #path to any pre-trained model but without the model number at the end
-    LOGGING_PATH = ""
+    MODEL_PATH = r"C:\Users\jerry\Desktop\Trace-master\pre-trained_models\model" #path to any pre-trained model but without the model number at the end
+    LOGGING_PATH = r"C:\Users\jerry\Desktop\Trace-master\trace-cli\logs.log" #path to the logs
     # -----------------------------------
 
     # --------GENERAL PARAMETERS--------
     NUM_C = 1  ## MP use (all-2) threads by default. Adjusted to 1 core due to parallel processing error
     Big_RAM = 0  ## See if the RAM of PC is big enough (> 8 times bigger than profile file size)
-    K_MEANS = 8  ## Or some integer (2~10 recommended); for k-means clustering of signal images
+    K_MEANS = None  ## Or some integer (2~10 recommended); for k-means clustering of signal images, original 8
     window_mz = 6  # the m/z range is 6 points (on both sides)
     window_rt = 30  # The time range is 30 points (on both sides)
     Plot_images = False  # choose to plot final predicted signal images or not
@@ -50,4 +50,5 @@ class MasterConfig():
     def __init__(self):
         pass
 
+#Create params object
 params = MasterConfig()

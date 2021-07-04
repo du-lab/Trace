@@ -11,12 +11,13 @@ from MasterConfig import params
 import numpy as np
 import sys
 import random
-
+from TraceResults import Peak
 import matplotlib
 matplotlib.use('Agg')  ## Avoid some problem when running on Windows or so..
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from sklearn.cluster import KMeans
+import logging
 
 # Weight Initialization
 def weight_variable(shape, var_name):
@@ -38,20 +39,23 @@ def max_pool_2x2(x):
 ############ Deep Learning Training Process#########################
 
 
-def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = False):
+def predict(pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = False):
 
     images0 = np.loadtxt(params.MEAN_STD_IMGS_PATH)
     mean_img = images0[0]
     std_img = images0[1]
 
-    pred_mat0 = np.copy(imgs_raw)
+    pred_mat0 = np.copy(pk_list)
     for i0 in pred_mat0:
-        i0 *= 255.0/i0.max()    ## Normalize the image to gray scale
+        i0.image *= 255.0/i0.image.max()    ## Normalize the image to gray scale
 
     #pred_mat = np.copy(pred_mat0)
     out_array=[]
+    pred_mat0arr = []
+    for Peak in pk_list:
+        pred_mat0arr.append(Peak.image)
     epsilon = 0.001 #added epsilon
-    for ii, pixel in enumerate(np.transpose(pred_mat0)):
+    for ii, pixel in enumerate(np.transpose(pred_mat0arr)):
         tmp2 = [(k-mean_img[ii])/(std_img[ii]+epsilon) for k in pixel]
         out_array.append(tmp2)
     pred_mat = np.transpose( out_array )
@@ -112,7 +116,7 @@ def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = False):
 
         saver.restore(sess, params.MODEL_PATH + str(jj) )
         
-        print ('TF model ' + str(jj) + ' loaded done!! ')
+        #logging.debug('TensorFlow model {} loaded done!! '.format(str(jj)))
 
         cc = 0.0
         sss = []
@@ -130,6 +134,7 @@ def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = False):
 
         score_save.append(sss)
         print ('Model ' + str(jj) + ' Predicted peaks: ', cc, ' from ', len(pk_list), 'target images' )
+        logging.critical('Model {} Predicted peaks: {} from  {} target images'.format(str(jj), cc, len(pk_list)))
         sess.close()
 
     score_vote = np.mean(np.transpose(score_save), axis = 1)
@@ -138,15 +143,17 @@ def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = False):
     for kk, skk in enumerate(score_vote):
         if skk > 0.5:
             tmp2 = []
-            tmp2.extend(pk_list[kk])
+            tmp2.append(pk_list[kk])
             tmp2.append(skk)
             target_pks.append(tmp2)
-            target_imgs.append(imgs_raw[kk])
+            target_imgs.append(pk_list[kk].image)
 
     print ('Final peaks predicted: ', len(target_pks))
-    f2 = (RESULTS_PATH + "/ImageData_Final-pks.txt")
-    np.savetxt(f2, target_imgs, fmt='%.2f',delimiter=' ')
+    logging.critical('\n\nFinal peaks predicted: {} '.format(len(target_pks)) )
+    #f2 = (RESULTS_PATH + "/ImageData_Final-pks.txt")
+    #np.savetxt(f2, target_imgs, fmt='%.2f',delimiter=' ')
 
+    #Not necessary, not functional when passing Peak object list
     if PLOT_IMG :
         os.system('mkdir ./Results/Signal_Images')
         print ('Now Ploting...') 
@@ -161,6 +168,7 @@ def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = False):
             plt.savefig(RESULTS_PATH+ "/Signal_Images/Signal_" + str(kk+1) + '_' + str(mz0) + '_'+ str(rt0) + '.png')
             plt.clf()
 
+    # Not necessary
     if K_means :
 
         for i0 in target_imgs:
@@ -177,10 +185,18 @@ def predict(imgs_raw, pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = False):
             plt.imshow(np.reshape(k_center[j], (60, 12)), interpolation='bilinear', cmap='jet', aspect='auto')
 
             plt.title('Cluster ' + str(j+1))
-        plt.savefig( RESULTS_PATH+ "/Clusters.png")
+        #plt.savefig( RESULTS_PATH+ "/Clusters.png") #Do not need to save for GUI
         plt.clf()
 
         for j in range(np.shape(target_pks)[0]):
             target_pks[j].extend([k_label[j]])
-    return target_pks
+
+
+    check_times = []
+    for target_pk in target_pks:
+        check_times.append(target_pk[0].time)
+    for peak in pk_list:
+        if(peak.time in check_times):
+            peak.prediction = True
+    return pk_list
 

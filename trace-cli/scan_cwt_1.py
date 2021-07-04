@@ -1,4 +1,3 @@
-
 import numpy as np
 import sys
 import codecs
@@ -8,7 +7,6 @@ import zlib
 import bisect as bs
 import xml.etree.cElementTree as et
 import struct
-
 from scipy.signal import convolve
 from scipy.stats import scoreatpercentile
 import scipy.stats as stats
@@ -16,8 +14,11 @@ import scipy.signal as signal
 import matplotlib.pyplot as plt
 
 from MasterConfig import params
+from TraceResults import Peak
 from joblib import Parallel, delayed
 import multiprocessing as mp
+import logging
+
 
 # https://stackoverflow.com/questions/21027477/joblib-parallel-multiple-cpus-slower-than-single
 
@@ -66,7 +67,7 @@ def cwt(data, widths):
     output = np.zeros([len(widths), len(data)])
     for ind, width in enumerate(widths):
         wavelet_data = ricker(min(10 * width, len(data)), width)
-        print("width, wavelet, data ", width, len(wavelet_data), len(data))
+        #logging.debug("width: {}, wavelet: {}, data: {} ".format(width, len(wavelet_data), len(data)))
         output[ind, :] = convolve(data, wavelet_data, mode='same')
     return output
 
@@ -131,7 +132,7 @@ def identify_ridge_lines(matr, max_distances, gap_thresh, min_length):
 
 ############################# boolrelextrema ###################################
 def boolrelextrema(data, comparator, axis=0, order=1, mode='clip'):
-    # print("order ", order)
+    #logging.debug("order: {} ".format(order))
 
     if ((int(order) != order) or (order < 1)):
         raise ValueError('Order must be an int >= 1')
@@ -186,9 +187,9 @@ def scan_EIC(ind):
     scantime_max = float(scan_time[len(scan_time) - 1])
 
     mz_t = round(float(Pick_mlist[ind]), 3)
-    chrm_ht = [];
-    chrm_mz = [];
-    chrm_tt = [];
+    chrm_ht = []
+    chrm_mz = []
+    chrm_tt = []
     chrm_ct = []
 
     mz1 = mz_t - mz_r
@@ -326,11 +327,10 @@ def scan_EIC(ind):
             # cmax = round( float(cwtmatr[max_row][max_cm]), 1)
 
             mz_real = round(float(mz_t + chrm_mz[pk]), 3)  ## Record the real m/z value
-
             pks_found.append([mz_real, chrm_tt[pk], chrm_ht[pk], cmax, snr1])
             # fout.write('%s  %s  %s  %s  %s  %s\n' % (mz_t, mz_real, chrm_tt[pk], chrm_ht[pk], cmax, snr1) )
 
-            print(mz_t, mz_real, chrm_tt[pk], chrm_ht[pk], cmax, snr1)
+            #logging.debug('mz_t: {}, mz_real: {}, chrm_tt[pk]: {}, chrm_ht[pk]: {}, cmax: {}, snr1: {}'.format(mz_t, mz_real, chrm_tt[pk], chrm_ht[pk], cmax, snr1))
 
     return np.array(pks_found)
 
@@ -407,10 +407,22 @@ def scan_mp(centroid_file_mzML, NUM_C):
 
     ############## Done! ################
     print(np.shape(pks_merged))
+    #logging.display(np.shape(pks_merged))
 
     pks_final = merge(pks_merged)
 
     print('Initial screening done! Total peaks found: ', len(pks_final))
+    logging.critical('\nInitial screening done! Total peaks found: {}'.format(len(pks_final)))
 
-    return pks_final
+    peaks = []
+    for peak in pks_final:
+        temppeakobject = Peak()
+        temppeakobject.mz = peak[0]
+        temppeakobject.time = peak[1]
+        temppeakobject.intensity = peak[2]
+        temppeakobject.area = peak[3]
+        temppeakobject.snr = peak[4]
+        peaks.append(temppeakobject)
+
+    return peaks
 

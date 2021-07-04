@@ -6,11 +6,11 @@ from struct import unpack as unpack
 import zlib
 import bisect as bs
 import xml.etree.cElementTree as et
-
+from TraceResults import Peak
 import scipy.signal as signal
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-
+import logging
 
 def init_scan(inputfile):
     fn1 = inputfile
@@ -98,7 +98,7 @@ def extract_spectrums(inputfile, left_bound, right_bound):
             elif (elem.attrib['name'] == 'time array'):
                 spec_name = 't'
         elif (elem.tag.endswith("binary") and event == 'end' and spec_idx >= left_bound and spec_name == 'i'):
-            print("$$$ length/float/comp/type", event, spec_idx, spec_len, spec_type, spec_comp, spec_name)
+            #logging.debug("event: {}, spec_idx: {}, spec_len: {}, spec_type: {}, spec_comp: {}, spec_name: {}".format(event, spec_idx, spec_len, spec_type, spec_comp, spec_name))
             unpackedData = []
             base64Data = elem.text.encode("utf-8")
             decodedData = b64dec(base64Data)
