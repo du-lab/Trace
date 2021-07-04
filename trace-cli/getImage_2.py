@@ -65,7 +65,7 @@ def get_image( profile_file_mzML, pk_list, RESULTS_PATH, Big_RAM = 0, window_mz 
                 htgrids = ht_matrix[t]
                 grids_part = [htgrids[i] for i in range(pos_mz1, pos_mz2)]
                 area.append(grids_part)
-                print (i, (np.shape((area))))
+                #print (i, (np.shape((area))))
         else:
             area = read.extract_area(inputfile, pos_rt1, pos_rt2, pos_mz1, pos_mz2)
 

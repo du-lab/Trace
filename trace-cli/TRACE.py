@@ -14,7 +14,7 @@ from TraceResults import allPeaksResults
 import pandas as pd
 import logging
 
-#Call this function after main()
+#Call this function after main() to export CSV
 def exportCSV():
     # Saving dataframe to Results class and CSV files
     peakarrform = []

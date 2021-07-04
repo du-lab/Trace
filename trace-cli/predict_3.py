@@ -153,12 +153,16 @@ def predict(pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = False):
     #f2 = (RESULTS_PATH + "/ImageData_Final-pks.txt")
     #np.savetxt(f2, target_imgs, fmt='%.2f',delimiter=' ')
 
-    #Not necessary, not functional when passing Peak object list
+    #Not necessary, not functional when passing Peak object list. Adjust if want to
     if PLOT_IMG :
+        imgs_raw = []
+
+        for peak in target_pks:
+            imgs_raw.append(peak[0].image)
         os.system('mkdir ./Results/Signal_Images')
-        print ('Now Ploting...') 
+        print ('Now Ploting...')
         for kk in range(np.shape(target_pks)[0]):
-            mz0 = round(tmp2[0], 3); rt0 = round(tmp2[1], 3)
+            mz0 = round(tmp2[0].mz, 3); rt0 = round(tmp2[0].time, 3)
             plt.imshow(np.reshape(imgs_raw[kk], (60, 12)), interpolation='bilinear', cmap='jet', aspect='auto')
 
             plt.title("M/Z: " + str(mz0)+"  RT: " +str(rt0) )
@@ -192,11 +196,11 @@ def predict(pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = False):
             target_pks[j].extend([k_label[j]])
 
 
-    check_times = []
+    check_mz_time = []
     for target_pk in target_pks:
-        check_times.append(target_pk[0].time)
+        check_mz_time.append([target_pk[0].mz, target_pk[0].time, target_pk[0].height, target_pk[0].area, target_pk[0].snr])
     for peak in pk_list:
-        if(peak.time in check_times):
+        if([peak.mz, peak.time, peak.height, peak.area, peak.snr] in check_mz_time):
             peak.prediction = True
     return pk_list
 
