@@ -47,14 +47,14 @@ def main(parameters):
     #pickle.dump(pks_initial, open(params.RESULTS_PATH + "\\save.p", "wb"))
 
     ## Second step: Signal image evaluation.
-    #pks_initial_debug = pickle.load(open(params.RESULTS_PATH + "\\save.p", "rb"))
-    #peaks_with_images = get_image(params.PROFILE_MS_PATH, pks_initial_debug, params.RESULTS_PATH, params.Big_RAM, params.window_mz, params.window_rt)
-    #pickle.dump(peaks_with_images, open(params.RESULTS_PATH + "\\save2.p", "wb"))
+    pks_initial_debug = pickle.load(open(params.RESULTS_PATH + "\\save.p", "rb"))
+    peaks_with_images = get_image(params.PROFILE_MS_PATH, pks_initial_debug, params.RESULTS_PATH, params.Big_RAM, params.window_mz, params.window_rt)
+    pickle.dump(peaks_with_images, open(params.RESULTS_PATH + "\\save2.p", "wb"))
 
 
     ## Final prediction
     peaks_with_images_debug = pickle.load(open(params.RESULTS_PATH + "\\save2.p", "rb"))
-    pks_final = predict(peaks_with_images_debug, RESULTS_PATH=params.RESULTS_PATH, K_means=params.K_MEANS, PLOT_IMG=params.Plot_images)
+    pks_final = predict(peaks_with_images_debug, RESULTS_PATH=params.RESULTS_PATH, PLOT_IMG=params.Plot_images)
     logging.critical('\nDone! Final disk results in {} folder.'.format(params.RESULTS_PATH))
     allPeaksResults.allPeaks = pks_final
     return pks_final

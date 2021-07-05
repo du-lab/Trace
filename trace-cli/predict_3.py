@@ -39,7 +39,7 @@ def max_pool_2x2(x):
 ############ Deep Learning Training Process#########################
 
 
-def predict(pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = False):
+def predict(pk_list, RESULTS_PATH, PLOT_IMG = False):
 
     images0 = np.loadtxt(params.MEAN_STD_IMGS_PATH)
     mean_img = images0[0]
@@ -154,46 +154,21 @@ def predict(pk_list, RESULTS_PATH, K_means = None, PLOT_IMG = False):
     #np.savetxt(f2, target_imgs, fmt='%.2f',delimiter=' ')
 
     #Not necessary, not functional when passing Peak object list. Adjust if want to
-    if PLOT_IMG :
-        imgs_raw = []
 
-        for peak in target_pks:
-            imgs_raw.append(peak[0].image)
-        os.system('mkdir ./Results/Signal_Images')
+    if PLOT_IMG :
+        os.system('mkdir .\Results\Signal_Images')
         print ('Now Ploting...')
         for kk in range(np.shape(target_pks)[0]):
-            mz0 = round(tmp2[0].mz, 3); rt0 = round(tmp2[0].time, 3)
-            plt.imshow(np.reshape(imgs_raw[kk], (60, 12)), interpolation='bilinear', cmap='jet', aspect='auto')
+            mz0 = round(target_pks[kk][0].mz, 3)
+            rt0 = round(target_pks[kk][0].time, 3)
+            plt.imshow(np.reshape(target_pks[kk][0].image, (60, 12)), interpolation='bilinear', cmap='jet', aspect='auto')
 
             plt.title("M/Z: " + str(mz0)+"  RT: " +str(rt0) )
             plt.xlabel('M/Z')
             plt.ylabel('Time')
             plt.colorbar()
-            plt.savefig(RESULTS_PATH+ "/Signal_Images/Signal_" + str(kk+1) + '_' + str(mz0) + '_'+ str(rt0) + '.png')
+            plt.savefig(RESULTS_PATH+ "\Signal_Images\Signal_" + str(kk+1) + '_' + str(mz0) + '_'+ str(rt0) + '.png')
             plt.clf()
-
-    # Not necessary
-    if K_means :
-
-        for i0 in target_imgs:
-            i0 *= 255.0/i0.max()    ## Normalize the image to gray scale
-
-        kmeans = KMeans(n_clusters= int(K_means), random_state=0).fit(target_imgs)
-        k_label = np.array(kmeans.labels_)
-        k_center = np.array(kmeans.cluster_centers_)
-
-        rows = math.ceil(K_means/3.0)
-        plt.figure()
-        for j in range(K_means):
-            plt.subplot(rows, 3, j+1)
-            plt.imshow(np.reshape(k_center[j], (60, 12)), interpolation='bilinear', cmap='jet', aspect='auto')
-
-            plt.title('Cluster ' + str(j+1))
-        #plt.savefig( RESULTS_PATH+ "/Clusters.png") #Do not need to save for GUI
-        plt.clf()
-
-        for j in range(np.shape(target_pks)[0]):
-            target_pks[j].extend([k_label[j]])
 
 
     check_mz_time = []

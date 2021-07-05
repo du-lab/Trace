@@ -17,11 +17,10 @@ class MasterConfig:
 
     # --------GENERAL PARAMETERS--------
     NUM_C = 1  ## MP use (all-2) threads by default. Adjusted to 1 core due to parallel processing error
-    Big_RAM = 0  ## See if the RAM of PC is big enough (> 8 times bigger than profile file size)
-    K_MEANS = None  ## Or some integer (2~10 recommended); for k-means clustering of signal images, original 8
+    Big_RAM = 1  ## See if the RAM of PC is big enough (> 8 times bigger than profile file size)
     window_mz = 6  # the m/z range is 6 points (on both sides)
     window_rt = 30  # The time range is 30 points (on both sides)
-    Plot_images = False  # choose to plot final predicted signal images or not
+    Plot_images = True  # choose to plot final predicted signal images or not
 
     mz_min = 25.000  # The minimum of m/z to be evaluated
     mz_max = 550.01  # The maximum of m/z to be evaluated
