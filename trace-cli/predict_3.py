@@ -156,7 +156,8 @@ def predict(pk_list, RESULTS_PATH, PLOT_IMG = False):
     #Not necessary, not functional when passing Peak object list. Adjust if want to
 
     if PLOT_IMG :
-        os.system('mkdir .\Results\Signal_Images')
+        if not os.path.isdir(params.RESULTS_PATH + '\Signal_Images'):
+            os.system('mkdir .\Results\Signal_Images')
         print ('Now Ploting...')
         for kk in range(np.shape(target_pks)[0]):
             mz0 = round(target_pks[kk][0].mz, 3)
