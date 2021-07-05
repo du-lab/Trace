@@ -32,11 +32,11 @@ def get_image( profile_file_mzML, pk_list, RESULTS_PATH, Big_RAM = 0, window_mz 
 
 
         mz0 = float(pk_list[i].mz)
-        rt0 = float(pk_list[i].time) #change
+        rt0 = float(pk_list[i].time)
         
         pos_mz=bs.bisect_left(mz_list, mz0)
         pos_mz1 = pos_mz - window_mz
-        pos_mz2 = pos_mz + window_mz# from pos1 to pos2 time save to peak.mz_values
+        pos_mz2 = pos_mz + window_mz
 
         if pos_mz2 >= len(mz_list):
             pos_mz1 = len(mz_list)- window_mz*2
@@ -49,7 +49,7 @@ def get_image( profile_file_mzML, pk_list, RESULTS_PATH, Big_RAM = 0, window_mz 
         
         pos_rt=bs.bisect_left(scan_t, rt0)
         pos_rt1 = pos_rt-window_rt
-        pos_rt2 = pos_rt+window_rt #from pos1 to pos2 time save to peak.times
+        pos_rt2 = pos_rt+window_rt
         if pos_rt2 >= len(scan_t):
             pos_rt1 = len(scan_t) - window_rt*2
             pos_rt2 = len(scan_t)
@@ -63,7 +63,15 @@ def get_image( profile_file_mzML, pk_list, RESULTS_PATH, Big_RAM = 0, window_mz 
         if Big_RAM > 0:
             for t in range(pos_rt1, pos_rt2):
                 htgrids = ht_matrix[t]
-                grids_part = [htgrids[i] for i in range(pos_mz1, pos_mz2)]
+                #grids_part = [htgrids[i] for i in range(pos_mz1, pos_mz2)]
+
+                grids_part = []
+                for mz in range(pos_mz1, pos_mz2):
+                    if(mz >= len(htgrids)):
+                        grids_part.append(0)
+
+                    else:
+                        grids_part.append(htgrids[mz])
                 area.append(grids_part)
                 #print (i, (np.shape((area))))
         else:
