@@ -22,6 +22,10 @@ import logging
 
 # https://stackoverflow.com/questions/21027477/joblib-parallel-multiple-cpus-slower-than-single
 
+#TODO As I understand, lines 31 - 51 will be executed only once, when `scan_cwt_1.py` is first imported (i.e. when the web app starts).
+# So when we change parameters in `MasterConfig`, this won't change parameters of `scan_cwt_1.py`.
+# We need to call these lines inside functions. For example, you can replace `mz_min` with `params.mz_min` everywhere in the code.
+
 ################### Important Paramenters To Be Changed ###################
 
 mz_min = params.mz_min       # The minimum of m/z to be evaluated
