@@ -66,23 +66,16 @@ python TRACE.py
 
 
 ### Results
-After running the code, a folder called "`Results`" will be generated (if not existent) and the result files will be saved under that folder. These files will be generated:
-Additionally, view the result numpy arrays and dataframes in `TraceResults.py` and the `results` object. Access these results by running this code in the directory:
+After running the code, a folder called "`Results`" will be generated (if not existent) and the result files will be saved under that folder. Enable saving data from `TRACE` to this directory by either running `exportCSV()` from `TRACE.py` after running `main()` and/or setting the Plot_images parameter to `True`
 ```
-from TraceResults import results
-results.initial_peaks
-results.final_peaks
-results.images_peaks
-results.dataFrameInitPeaks 
-results.dataFrameFinalPeaks 
+exportCSV()
+Plot_images = True
 ```
 
-| Output File &nbsp; &nbsp; &nbsp; &nbsp;  | Description |
-| ---- | --- |
-| `Initial_pks.csv` | Initial scanning signal list. Contains (m/z, retention time, intensity, peak area, SNR) for each signal. |
-| `Images_pks.txt` | Images of the potential signals by initial scaning (60x12=720 pixels for each image per row by default). |
-| `Final_pks.csv` | Final signal list. Contains (m/z, retention time, intensity, peak area, SNR) for each signal per row. |
-| `Signal Images` | Final signal image heatmap plots contained in a folder. Enable or disable by adjusting the PLOT_IMG parameter in `MasterConfig`. |
+| Output File &nbsp; &nbsp; &nbsp; &nbsp;  | Description |  Condition |
+| ---- | --- | ---- |
+| `Final_pks.csv` | Final signal list with neural network prediction. Contains (m/z, retention time, intensity, peak area, SNR, and prediction) for each signal per row. | Run exportCSV()
+| `Signal Images` | Final predicted true signal image heatmap plots contained in a folder. Enable or disable by adjusting the PLOT_IMG parameter in `MasterConfig`. | Plot_images = True
 
 ### Train Your Own Model 
 While the pre-trained model is provided by default with our CE-ESI-MS data, users are advised to perform independent training for customized datasets, particularly if different types of experimental conditions or technologies were used to acquire the data. For this purpose, besides the python code provided (`Training_Model.py`), users need to prepare their own training data: both positive (true) and negative (false) signal sample images (`imgs-train.txt`) and their labels (`label-train.txt`). The image file should be in such a format that each line stands for a flatted signal image (rows connect to a single row in order). The label file should be in one column indicating whether (1) or not (0) the signal image stands for a true signal in the image file of corresponding row. For example, if N (>1000 recommended for better model performance) samples are collected and labeled, then the data size should be (`N x 720`) for image file and (`N x 1 `)for label file. To run the program, execute the `Training_Model.py` code by 
