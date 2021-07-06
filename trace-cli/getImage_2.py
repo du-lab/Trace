@@ -2,7 +2,7 @@ import sys
 import numpy as np
 import bisect as bs
 import mzmlReadRaw as read
-from TraceResults import Peak
+from peaks import Peak
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import logging

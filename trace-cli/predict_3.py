@@ -11,7 +11,7 @@ from MasterConfig import params
 import numpy as np
 import sys
 import random
-from TraceResults import Peak
+from peaks import Peak
 import matplotlib
 matplotlib.use('Agg')  ## Avoid some problem when running on Windows or so..
 import matplotlib.pyplot as plt

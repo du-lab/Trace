@@ -30,17 +30,12 @@ class MasterConfig:
 
     # ----------CWT PARAMETERS---------
     min_len_eic = 6  ## Minimum length of a EIC to be scanned by CWT
-    widths = np.asarray([i for i in range(1, int(10 * ms_freq), 1)] + [int(20 * ms_freq)])
-    gap_thresh = np.ceil(widths[0])
+    max_peak_width = 1.5 * 5 * 0.503 / 60 #In Mins, can use seconds depending on data)
+    time_window = 0.5 #time window in mins, can use seconds depending on data parameters
     window_size = 30
-    min_length = int(len(widths) * 0.2)  # org: 0.25
     min_snr = 4  # org: 8. This is the Signal Noise Ratio for the wavelet and may needed to be adjusted.
     perc = 90
-
-    Pick_mlist = np.arange(mz_min, mz_max, mz_r)
-    max_distances = widths / 4.0
     max_scale_for_peak = 18
-    hf_window = int(0.5 * window_size)
     # ----------------------------------
 
     # ADD DEEP LEARNING PARAMETERS HERE IF NEEDED

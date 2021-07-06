@@ -14,41 +14,10 @@ import scipy.signal as signal
 import matplotlib.pyplot as plt
 
 from MasterConfig import params
-from TraceResults import Peak
+from peaks import Peak
 from joblib import Parallel, delayed
 import multiprocessing as mp
 import logging
-
-
-# https://stackoverflow.com/questions/21027477/joblib-parallel-multiple-cpus-slower-than-single
-
-################### Important Paramenters To Be Changed ###################
-
-mz_min = params.mz_min       # The minimum of m/z to be evaluated
-mz_max = params.mz_max       # The maximum of m/z to be evaluated
-mz_r = params.mz_r       # The m/z bin for signal detection and evaluation (window is +/- this value)
-
-ms_freq = params.ms_freq       ## The scanning frequency of MS: spectrums/second. Change accordingly
-
-################### Important Paramenters ###################
-min_len_eic = params.min_len_eic  ## Minimum length of a EIC to be scanned by CWT
-widths=np.asarray( [i for i in range(1,int(10*ms_freq),1)] + [int(20*ms_freq)] )
-gap_thresh = np.ceil(widths[0])
-window_size = params.window_size
-min_length  = int(len(widths)*0.2)  # org: 0.25
-min_snr = params.min_snr  # org: 8. This is the Signal Noise Ratio for the wavelet and may needed to be adjusted.
-perc = params.perc
-
-
-############################################
-Pick_mlist = np.arange(mz_min, mz_max, mz_r)
-max_distances = widths / 4.0
-max_scale_for_peak = params.max_scale_for_peak
-hf_window = int(0.5 * window_size)
-
-
-################### Important Paramenters ###################
-
 
 ############################### ricker ####################################
 def ricker(points, a):
@@ -181,6 +150,13 @@ def scan_EIC(ind):
     global spec_i
     global scan_time
 
+    # Important Dependent Parameters From User Input
+    widths = np.asarray([i for i in range(1, int(10 * params.ms_freq), 1)] + [int(20 * params.ms_freq)])
+    gap_thresh = np.ceil(widths[0])
+    min_length = int(len(widths) * 0.2)  # org: 0.25
+    Pick_mlist = np.arange(params.mz_min, params.mz_max, params.mz_r)
+    max_distances = widths / 4.0
+    hf_window = int(0.5 * params.window_size)
     pks_found = []
 
     scantime_min = float(scan_time[0])
@@ -192,8 +168,8 @@ def scan_EIC(ind):
     chrm_tt = []
     chrm_ct = []
 
-    mz1 = mz_t - mz_r
-    mz2 = mz_t + mz_r
+    mz1 = mz_t - params.mz_r
+    mz2 = mz_t + params.mz_r
 
     for t in range(len(scan_time)):  # range(spec_idx+1)
         pos1 = bs.bisect_left(spec_m[t], mz1)
@@ -212,7 +188,7 @@ def scan_EIC(ind):
             chrm_tt.append(round(float(scan_time[t]), 3))
             chrm_ct.append(pos2 - pos1)
 
-    if len(chrm_ht) < min_len_eic:  # continue
+    if len(chrm_ht) < params.min_len_eic:  # continue
         return
 
     cwtmatr = cwt(np.asarray(chrm_ht), widths)
@@ -241,7 +217,7 @@ def scan_EIC(ind):
     for line in ridge_lines:
 
         # first pass (too close to the edges)
-        if chrm_tt[line[1][0]] < scantime_min + 0.5 or chrm_tt[line[1][0]] > scantime_max - 0.5: continue
+        if chrm_tt[line[1][0]] < scantime_min + params.time_window or chrm_tt[line[1][0]] > scantime_max - params.time_window: continue
 
         # second pass (min_lenght)
         if len(line[0]) < min_length: continue
@@ -255,7 +231,7 @@ def scan_EIC(ind):
         if pkm - pk1 < 3: continue
         if pk2 - pkm < 3: continue
 
-        if chrm_tt[pkm + 2] - chrm_tt[pkm - 3] > 1.5 * 5 * 0.503 / 60: continue
+        if chrm_tt[pkm + 2] - chrm_tt[pkm - 3] > params.max_peak_width: continue
 
         pkk1 = max(0, pkm - hf_window)
         pkk2 = min(pkm + hf_window, len(chrm_ht) - 1)
@@ -272,7 +248,7 @@ def scan_EIC(ind):
         line_val = []
         line_scl = []
         for i in range(len(line[0])):
-            if widths[line[0][i]] < max_scale_for_peak:
+            if widths[line[0][i]] < params.max_scale_for_peak:
                 line_val.append(cwtmatr[line[0][i], line[1][i]])
                 line_scl.append(widths[line[0][i]])
 
@@ -287,14 +263,14 @@ def scan_EIC(ind):
         window_start = max(ind - hf_window, 0)
         window_end = min(ind + hf_window, num_points)
 
-        noises = stats.scoreatpercentile(abs(row_one[window_start:window_end]), perc)
+        noises = stats.scoreatpercentile(abs(row_one[window_start:window_end]), params.perc)
         line_val = []
         for i in range(window_start, window_end):
             if row_one[i] < noises: line_val.append(row_one[i])
         means = np.mean(line_val)
         stdevs = np.std(line_val)
 
-        data_noises = stats.scoreatpercentile(chrm_ht[window_start: window_end], perc)
+        data_noises = stats.scoreatpercentile(chrm_ht[window_start: window_end], params.perc)
         data_means = np.mean(chrm_ht[window_start: window_end])
         data_stdevs = np.std(chrm_ht[window_start: window_end])
 
@@ -303,7 +279,7 @@ def scan_EIC(ind):
         snr3 = row_one[ind] / stdevs
         snr4 = cwtmatr[2, ind] / stdevs
 
-        if snr1 > min_snr and snr4 > 1.5:
+        if snr1 > params.min_snr and snr4 > 1.5:
 
             asym1 = row_inf[ind] - row_inf[window_start]
             asym2 = row_inf[ind] - row_inf[window_end - 1]
@@ -351,7 +327,7 @@ def scan_mp(centroid_file_mzML, NUM_C):
     global spec_i
     global scan_time
 
-
+    Pick_mlist = np.arange(params.mz_min, params.mz_max, params.mz_r)
     fn1 = centroid_file_mzML  # File name to be changed. Remember to specify the folder location for this file.
 
     spec_comp = []
