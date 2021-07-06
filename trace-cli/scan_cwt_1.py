@@ -388,7 +388,7 @@ def scan_mp(centroid_file_mzML, NUM_C):
     pks_final = merge(pks_merged)
 
     print('Initial screening done! Total peaks found: ', len(pks_final))
-    logging.critical('\nInitial screening done! Total peaks found: {}'.format(len(pks_final)))
+    logging.critical('\nInitial screening done! Total peaks found: {}\n'.format(len(pks_final)))
 
     peaks = []
     for peak in pks_final:
