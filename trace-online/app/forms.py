@@ -16,7 +16,7 @@ class UploadForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class ParametersForm(FlaskForm):
-    window_mz = IntegerField('m/z windows', validators=[DataRequired()])
+    window_mz = IntegerField('m/z window', validators=[DataRequired()])
     window_rt = IntegerField('time window', validators=[DataRequired()])
     mz_r = DecimalField('m/z tolerance', validators=[DataRequired()])
 
@@ -26,4 +26,4 @@ class ParametersForm(FlaskForm):
     perc = IntegerField('Percentile within the window size', validators=[DataRequired()])
     max_scale_for_peak = IntegerField('Max CWT scale', validators=[DataRequired()])
 
-    submit = SubmitField('Submit')
+    submit = SubmitField('Process')

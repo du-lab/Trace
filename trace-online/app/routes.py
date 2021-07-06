@@ -1,7 +1,7 @@
 from app import app
 from flask import render_template, session, redirect, url_for
 from werkzeug.utils import secure_filename
-from app.forms import UploadForm
+from app.forms import UploadForm, ParametersForm
 import os, random, string
 
 @app.route('/')
@@ -29,4 +29,7 @@ def upload():
 
 @app.route('/parameters', methods=["GET", "POST"])
 def parameters():
-    return render_template('parameters.html', title="Parameters")
+    form = ParametersForm()
+    if form.validate_on_submit():
+        pass
+    return render_template('parameters.html', title="Parameters", form=form)

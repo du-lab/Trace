@@ -12,28 +12,78 @@
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
       <li role="presentation" class="active">
-        <a href="#peakdetect" aria-controls="peak" role="tab" data-toggle="tab">Peak Detection</a>
+        <a href="#genparam" aria-controls="general parameters" role="tab" data-toggle="tab">General Parameters</a>
       </li>
       <li role="presentation">
-        <a href="#imagegenerate" aria-controls="image" role="tab" data-toggle="tab">Image Generation</a>
-      </li>
-      <li role="presentation">
-        <a href="#prediction" aria-controls="prediction" role="tab" data-toggle="tab">Prediction</a>
+        <a href="#cwtparam" aria-controls="cwt parameters" role="tab" data-toggle="tab">CWT Parameters</a>
       </li>
     </ul>
-
+  <form action="" method="post" novalidate>
     <!-- Tab panes -->
     <div class="tab-content">
-      <div role="tabpanel" class="tab-pane active" id="peakdetect">
-        <p>Input field 1</p>
+      <div role="tabpanel" class="tab-pane active" id="genparam">
+        <p>
+          {{ form.window_mz.label }}<br>
+          {{ form.window_mz (size=32) }}
+          {% for error in form.window_mz.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.window_rt.label }}<br>
+          {{ form.window_rt (size=32) }}
+          {% for error in form.window_rt.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.mz_r.label }} <br>
+          {{ form.mz_r (size=32) }}
+          {% for error in form.mz_r.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </p>
       </div>
-      <div role="tabpanel" class="tab-pane" id="imagegenerate">
-        <p>Input field 2</p>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="prediction">
-        <p>Input field 3</p>
+      <div role="tabpanel" class="tab-pane" id="cwtparam">
+        <p>
+          {{ form.min_len_eic.label }}<br>
+          {{ form.min_len_eic (size=32) }}
+          {% for error in form.min_len_eic.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.window_size.label }}<br>
+          {{ form.window_size (size=32) }}
+          {% for error in form.window_size.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.min_snr.label }}<br>
+          {{ form.min_snr (size=32) }}
+          {% for error in form.min_snr.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.perc.label }}<br>
+          {{ form.perc (size=32) }}
+          {% for error in form.perc.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.max_scale_for_peak.label }}<br>
+          {{ form.max_scale_for_peak (size=32) }}
+          {% for error in form.max_scale_for_peak.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </p>
       </div>
     </div>
+    <p style="margin: 100px 350px;">{{ form.submit() }}</p>
+  </form>
 
   </div>
 {% endblock %}
