@@ -31,5 +31,13 @@ def upload():
 def parameters():
     form = ParametersForm()
     if form.validate_on_submit():
-        pass
+        session['window_mz'] = form.window_mz.data
+        session['window_rt'] = form.window_rt.data
+        session['mz_r'] = form.mz_r.data
+        session['min_len_eic'] = form.min_len_eic.data
+        session['window_size'] = form.window_size.data
+        session['min_snr'] = form.min_snr.data
+        session['perc'] = form.perc.data
+        session['max_scale_for_peak'] = form.max_scale_for_peak.data
+        return redirect(url_for('index'))
     return render_template('parameters.html', title="Parameters", form=form)

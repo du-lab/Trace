@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, IntegerField, DecimalField
+from wtforms import StringField, SubmitField, IntegerField, FloatField
 from flask_wtf.file import FileField, FileRequired, FileAllowed
-from wtforms.validators import DataRequired
+from wtforms.validators import InputRequired
 
 class UploadForm(FlaskForm):
     name = StringField('Analysis Name')
@@ -16,14 +16,14 @@ class UploadForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class ParametersForm(FlaskForm):
-    window_mz = IntegerField('m/z window', validators=[DataRequired()])
-    window_rt = IntegerField('time window', validators=[DataRequired()])
-    mz_r = DecimalField('m/z tolerance', validators=[DataRequired()])
+    window_mz = IntegerField('m/z window', validators=[InputRequired()])
+    window_rt = IntegerField('time window', validators=[InputRequired()])
+    mz_r = FloatField('m/z tolerance', validators=[InputRequired()])
 
-    min_len_eic = IntegerField('EIC min length', validators=[DataRequired()])
-    window_size = IntegerField('Window size to calculate noise', validators=[DataRequired()])
-    min_snr = IntegerField('Min Signal-to-noise ratio', validators=[DataRequired()])
-    perc = IntegerField('Percentile within the window size', validators=[DataRequired()])
-    max_scale_for_peak = IntegerField('Max CWT scale', validators=[DataRequired()])
+    min_len_eic = IntegerField('EIC min length', validators=[InputRequired()])
+    window_size = IntegerField('Window size to calculate noise', validators=[InputRequired()])
+    min_snr = IntegerField('Min Signal-to-noise ratio', validators=[InputRequired()])
+    perc = IntegerField('Percentile within the window size', validators=[InputRequired()])
+    max_scale_for_peak = IntegerField('Max CWT scale', validators=[InputRequired()])
 
     submit = SubmitField('Process')

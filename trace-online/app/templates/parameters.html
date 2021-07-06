@@ -18,7 +18,9 @@
         <a href="#cwtparam" aria-controls="cwt parameters" role="tab" data-toggle="tab">CWT Parameters</a>
       </li>
     </ul>
+
   <form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
     <!-- Tab panes -->
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="genparam">
