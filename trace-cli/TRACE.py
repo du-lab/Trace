@@ -8,8 +8,7 @@ import multiprocessing as mp
 import pickle
 import time
 from MasterConfig import params
-from MasterConfig import MasterConfig
-from TraceResults import Peak
+from peaks import Peak
 from TraceResults import allPeaksResults
 import pandas as pd
 import logging
@@ -37,14 +36,14 @@ def main(parameters):
     logger.setLevel(logging.CRITICAL)
 
     logging.critical('Starting Trace...\n')
-    logging.critical('\nGeneral Parameters:\nResults Path: {}\nCentroid MS Path: {}\nProfile MS Path: {}\nCores: {}\nRAM 8 Times Size Of Profile Data File: \nWindow M/Z: {}\nWindow Time: {}\nPlot Images: \nMin M/Z: {}\nMax M/Z: {}\nM/Z Bin: {}\nMS Frequency: {}\n\nCWT Parameters:\nMin Length Of EIC To Be Scanned: {}\nWindow Size: {}\nSNR For Wavelet: {}\nMax Scale For Peak: {}\n'.format(params.RESULTS_PATH, params.CENTROID_MS_PATH, params.PROFILE_MS_PATH, params.NUM_C, params.Big_RAM, params.window_mz, params.window_rt, params.Plot_images, params.mz_min, params.mz_max,params.mz_r, params.ms_freq, params.min_len_eic, params.window_size, params.min_snr,params.max_scale_for_peak ))
+    logging.critical('\nGeneral Parameters:\nResults Path: {}\nCentroid MS Path: {}\nProfile MS Path: {}\nCores: {}\nRAM 8 Times Size Of Profile Data File: {}\nWindow M/Z: {}\nWindow Time: {}\nPlot Images: {}\nMin M/Z: {}\nMax M/Z: {}\nM/Z Bin: {}\nMS Frequency: {}\n\nCWT Parameters:\nMin Length Of EIC To Be Scanned: {}\nMax Peak Width: {}\nTime window: {}\nWindow Size: {}\nSNR For Wavelet: {}\nMax Scale For Peak: {}\n'.format(params.RESULTS_PATH, params.CENTROID_MS_PATH, params.PROFILE_MS_PATH, params.NUM_C, params.Big_RAM, params.window_mz, params.window_rt, params.Plot_images, params.mz_min, params.mz_max,params.mz_r, params.ms_freq, params.min_len_eic, params.max_peak_width, params.time_window, params.window_size, params.min_snr,params.max_scale_for_peak ))
     if not os.path.isdir(params.RESULTS_PATH):   ## Will create a folder for results if not existent.
         os.makedirs(params.RESULTS_PATH)
 
     ## First step: CWT and initial scanning
-    #pks_initial = scan_mp(params.CENTROID_MS_PATH, NUM_C=params.NUM_C)  ##
+    pks_initial = scan_mp(params.CENTROID_MS_PATH, NUM_C=params.NUM_C)  ##
 
-    #pickle.dump(pks_initial, open(params.RESULTS_PATH + "\\save.p", "wb"))
+    pickle.dump(pks_initial, open(params.RESULTS_PATH + "\\save.p", "wb"))
 
     ## Second step: Signal image evaluation.
     pks_initial_debug = pickle.load(open(params.RESULTS_PATH + "\\save.p", "rb"))
