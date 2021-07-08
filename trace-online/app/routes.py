@@ -42,5 +42,7 @@ def parameters():
         params.min_snr = form.min_snr.data
         params.perc = form.perc.data
         params.max_scale_for_peak = form.max_scale_for_peak.data
+        params.CENTROID_MS_PATH = session['filepath1']
+        params.PROFILE_MS_PATH = session['filepath2']
         return redirect(url_for('index'))
     return render_template('parameters.html', title="Parameters", form=form)
