@@ -4,7 +4,8 @@ from werkzeug.utils import secure_filename
 from app.forms import UploadForm, ParametersForm
 import os, random, string
 
-from trace.MasterConfig import params
+from app.trace.MasterConfig import params
+from app.trace import mzmlReadRaw as read
 
 
 @app.route('/')
@@ -27,12 +28,21 @@ def upload():
         file2.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename2))
         session['filepath1'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename1)
         session['filepath2'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename2)
+        session['run_init_scan'] = True
         return redirect(url_for('parameters'))
     return render_template('upload.html', title="Upload", form=form)
 
 @app.route('/parameters', methods=["GET", "POST"])
 def parameters():
     form = ParametersForm()
+    if session['run_init_scan'] == True:
+        params.CENTROID_MS_PATH = session['filepath1']
+        params.PROFILE_MS_PATH = session['filepath2']
+        [scan_num, scan_t, mz_list] = read.init_scan(params.PROFILE_MS_PATH)
+        params.mz_min = min(mz_list)
+        params.mz_max = max(mz_list)
+        params.ms_freq = scan_num/(scan_t[len(scan_t)-1]-scan_t[0])
+        session['run_init_scan'] = False
     if form.validate_on_submit():
         params.window_mz = form.window_mz.data
         params.window_rt = form.window_rt.data
@@ -42,7 +52,5 @@ def parameters():
         params.min_snr = form.min_snr.data
         params.perc = form.perc.data
         params.max_scale_for_peak = form.max_scale_for_peak.data
-        params.CENTROID_MS_PATH = session['filepath1']
-        params.PROFILE_MS_PATH = session['filepath2']
         return redirect(url_for('index'))
     return render_template('parameters.html', title="Parameters", form=form)
