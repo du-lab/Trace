@@ -1,6 +1,7 @@
 from app import app
-from flask import render_template, session, redirect, url_for
+from flask import render_template, session, redirect, url_for, request
 from werkzeug.utils import secure_filename
+from werkzeug.datastructures import MultiDict
 from app.forms import UploadForm, ParametersForm
 import os, random, string
 
@@ -28,21 +29,24 @@ def upload():
         file2.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename2))
         session['filepath1'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename1)
         session['filepath2'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename2)
-        session['run_init_scan'] = True
         return redirect(url_for('parameters'))
     return render_template('upload.html', title="Upload", form=form)
 
 @app.route('/parameters', methods=["GET", "POST"])
 def parameters():
-    form = ParametersForm()
-    if session['run_init_scan'] == True:
+    if request.method == 'GET':
         params.CENTROID_MS_PATH = session['filepath1']
         params.PROFILE_MS_PATH = session['filepath2']
         [scan_num, scan_t, mz_list] = read.init_scan(params.PROFILE_MS_PATH)
         params.mz_min = min(mz_list)
         params.mz_max = max(mz_list)
         params.ms_freq = scan_num/(scan_t[len(scan_t)-1]-scan_t[0])
-        session['run_init_scan'] = False
+        form = ParametersForm(formdata=MultiDict({'window_mz': params.window_mz, 'window_rt': params.window_rt,
+                                                  'mz_r': params.mz_r, 'min_len_eic': params.min_len_eic,
+                                                  'window_size': params.window_size, 'min_snr': params.min_snr,
+                                                  'perc': params.perc, 'max_scale_for_peak': params.max_scale_for_peak}))
+    else:
+        form = ParametersForm()
     if form.validate_on_submit():
         params.window_mz = form.window_mz.data
         params.window_rt = form.window_rt.data
