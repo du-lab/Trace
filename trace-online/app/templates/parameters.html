@@ -17,6 +17,9 @@
       <li role="presentation">
         <a href="#cwtparam" aria-controls="cwt parameters" role="tab" data-toggle="tab">CWT Parameters</a>
       </li>
+      <li role="presentation">
+        <a href="#precalcparam" aria-controls="pre-calculated parameters" role="tab" data-toggle="tab">Pre-calculated Parameters</a>
+      </li>
     </ul>
 
   <form action="" method="post" novalidate>
@@ -82,6 +85,11 @@
           <span style="color: red;">[{{ error }}]</span>
           {% endfor %}
         </p>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="precalcparam">
+        <h4>mz_min: {{ mz_min }}</h4><br>
+        <h4>mz_max: {{ mz_max }}</h4><br>
+        <h4>ms_freq: {{ ms_freq }}</h4>
       </div>
     </div>
     <p style="margin: 100px 350px;">{{ form.submit() }}</p>

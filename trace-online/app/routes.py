@@ -53,4 +53,5 @@ def parameters():
         params.perc = form.perc.data
         params.max_scale_for_peak = form.max_scale_for_peak.data
         return redirect(url_for('index'))
-    return render_template('parameters.html', title="Parameters", form=form)
+    return render_template('parameters.html', title="Parameters", form=form,
+                           mz_min=params.mz_min, mz_max=params.mz_max, ms_freq=params.ms_freq)
