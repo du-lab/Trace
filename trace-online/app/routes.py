@@ -48,14 +48,14 @@ def parameters():
     else:
         form = ParametersForm()
     if form.validate_on_submit():
-        params.window_mz = form.window_mz.data
-        params.window_rt = form.window_rt.data
-        params.mz_r = form.mz_r.data
-        params.min_len_eic = form.min_len_eic.data
-        params.window_size = form.window_size.data
-        params.min_snr = form.min_snr.data
-        params.perc = form.perc.data
-        params.max_scale_for_peak = form.max_scale_for_peak.data
+        params.window_mz, session['window_mz'] = form.window_mz.data, form.window_mz.data
+        params.window_rt, session['window_rt'] = form.window_rt.data, form.window_rt.data
+        params.mz_r, session['mz_r'] = form.mz_r.data, form.mz_r.data
+        params.min_len_eic, session['min_len_eic'] = form.min_len_eic.data, form.min_len_eic.data
+        params.window_size, session['window_size'] = form.window_size.data, form.window_size.data
+        params.min_snr, session['min_snr'] = form.min_snr.data, form.min_snr.data
+        params.perc, session['perc'] = form.perc.data, form.perc.data
+        params.max_scale_for_peak, session['max_scale_for_peak'] = form.max_scale_for_peak.data, form.max_scale_for_peak.data
         return redirect(url_for('index'))
     return render_template('parameters.html', title="Parameters", form=form,
                            mz_min=params.mz_min, mz_max=params.mz_max, ms_freq=params.ms_freq)
