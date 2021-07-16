@@ -29,6 +29,7 @@ def upload():
         file2.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename2))
         session['filepath1'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename1)
         session['filepath2'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename2)
+        params.LOGGING_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, 'logs.log')
         return redirect(url_for('parameters'))
     return render_template('upload.html', title="Upload", form=form)
 
