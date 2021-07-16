@@ -6,12 +6,12 @@ import os
 import tensorflow as tf
 import math
 
-from MasterConfig import params
+from app.trace.MasterConfig import params
 
 import numpy as np
 import sys
 import random
-from peaks import Peak
+from app.trace.peaks import Peak
 import matplotlib
 matplotlib.use('Agg')  ## Avoid some problem when running on Windows or so..
 import matplotlib.pyplot as plt

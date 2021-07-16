@@ -13,8 +13,8 @@ import scipy.stats as stats
 import scipy.signal as signal
 import matplotlib.pyplot as plt
 
-from MasterConfig import params
-from peaks import Peak
+from app.trace.MasterConfig import params
+from app.trace.peaks import Peak
 from joblib import Parallel, delayed
 import multiprocessing as mp
 import logging

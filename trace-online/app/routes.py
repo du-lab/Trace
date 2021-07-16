@@ -7,7 +7,7 @@ import os, random, string
 
 from app.trace.MasterConfig import params
 from app.trace import mzmlReadRaw as read
-
+from app.trace.TRACE import main
 
 @app.route('/')
 @app.route('/index')
@@ -56,6 +56,7 @@ def parameters():
         params.min_snr, session['min_snr'] = form.min_snr.data, form.min_snr.data
         params.perc, session['perc'] = form.perc.data, form.perc.data
         params.max_scale_for_peak, session['max_scale_for_peak'] = form.max_scale_for_peak.data, form.max_scale_for_peak.data
+        main(params)
         return redirect(url_for('index'))
     return render_template('parameters.html', title="Parameters", form=form,
                            mz_min=params.mz_min, mz_max=params.mz_max, ms_freq=params.ms_freq)

@@ -1,15 +1,15 @@
 import os
 import math
 import numpy as np
-from scan_cwt_1 import scan_mp
-from getImage_2 import get_image
-from predict_3 import predict
+from app.trace.scan_cwt_1 import scan_mp
+from app.trace.getImage_2 import get_image
+from app.trace.predict_3 import predict
 import multiprocessing as mp
 import pickle
 import time
-from MasterConfig import params
-from peaks import Peak
-from TraceResults import allPeaksResults
+from app.trace.MasterConfig import params
+from app.trace.peaks import Peak
+from app.trace.TraceResults import allPeaksResults
 import pandas as pd
 import logging
 

@@ -1,8 +1,8 @@
 import sys
 import numpy as np
 import bisect as bs
-import mzmlReadRaw as read
-from peaks import Peak
+from app.trace import mzmlReadRaw as read
+from app.trace.peaks import Peak
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import logging

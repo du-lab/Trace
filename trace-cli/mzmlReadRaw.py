@@ -6,7 +6,7 @@ from struct import unpack as unpack
 import zlib
 import bisect as bs
 import xml.etree.cElementTree as et
-# from peaks import Peak
+from app.trace.peaks import Peak
 import scipy.signal as signal
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
