@@ -87,9 +87,27 @@
         </p>
       </div>
       <div role="tabpanel" class="tab-pane" id="precalcparam">
-        <h4>mz_min: {{ mz_min }}</h4><br>
-        <h4>mz_max: {{ mz_max }}</h4><br>
-        <h4>ms_freq: {{ ms_freq }}</h4>
+        <p>
+          {{ form.mz_min.label }}<br>
+          {{ form.mz_min (size=32) }}
+          {% for error in form.mz_min.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.mz_max.label }}<br>
+          {{ form.mz_max (size=32) }}
+          {% for error in form.mz_max.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.ms_freq.label }}<br>
+          {{ form.ms_freq (size=32) }}
+          {% for error in form.ms_freq.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </p>
       </div>
     </div>
     <p style="margin: 100px 350px;">{{ form.submit() }}</p>

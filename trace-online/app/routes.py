@@ -41,10 +41,12 @@ def parameters():
         params.mz_min = min(mz_list)
         params.mz_max = max(mz_list)
         params.ms_freq = scan_num/(scan_t[len(scan_t)-1]-scan_t[0])
+        session['mz_min'], session['mz_max'], session['ms_freq'] = params.mz_min, params.mz_max, params.ms_freq
         form = ParametersForm(formdata=MultiDict({'window_mz': params.window_mz, 'window_rt': params.window_rt,
                                                   'mz_r': params.mz_r, 'min_len_eic': params.min_len_eic,
                                                   'window_size': params.window_size, 'min_snr': params.min_snr,
-                                                  'perc': params.perc, 'max_scale_for_peak': params.max_scale_for_peak}))
+                                                  'perc': params.perc, 'max_scale_for_peak': params.max_scale_for_peak,
+                                                  'mz_min': params.mz_min, 'mz_max': params.mz_max, 'ms_freq': params.ms_freq}))
     else:
         form = ParametersForm()
     if form.validate_on_submit():
@@ -58,5 +60,4 @@ def parameters():
         params.max_scale_for_peak, session['max_scale_for_peak'] = form.max_scale_for_peak.data, form.max_scale_for_peak.data
         main(params)
         return redirect(url_for('index'))
-    return render_template('parameters.html', title="Parameters", form=form,
-                           mz_min=params.mz_min, mz_max=params.mz_max, ms_freq=params.ms_freq)
+    return render_template('parameters.html', title="Parameters", form=form)
