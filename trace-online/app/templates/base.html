@@ -1,5 +1,17 @@
 {% extends 'bootstrap/base.html' %}
 
+{% block head %}
+    {% with show_log = session['show_log'] %}
+    {% if show_log == True %}
+    {% with relative_log_path = session['relative_log_path'] %}
+    <script>
+        setInterval(function() {
+            $('#logfile').load(relative_log_path);
+        }, 1000);
+    </script>
+    {% endif %}
+{% endblock %}
+
 {% block title %}
     {% if title %}{{ title }} - Trace{% else %}Trace Online{% endif %}
 {% endblock %}

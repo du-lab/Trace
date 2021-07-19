@@ -17,7 +17,7 @@ class MasterConfig:
 
     # --------GENERAL PARAMETERS--------
     NUM_C = 1  ## MP use (all-2) threads by default. Adjusted to 1 core due to parallel processing error
-    Big_RAM = 1  ## See if the RAM of PC is big enough (> 8 times bigger than profile file size)
+    Big_RAM = 1  ## See if the RAM of PC is big enough (> 8 times bigger than profile file size) [Set to True to run faster]
     window_mz = 6  # the m/z range is 6 points (on both sides)
     window_rt = 30  # The time range is 30 points (on both sides)
     Plot_images = True  # choose to plot final predicted signal images or not

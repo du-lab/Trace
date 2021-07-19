@@ -12,6 +12,12 @@ from app.trace.TRACE import main
 @app.route('/')
 @app.route('/index')
 def index():
+    try:
+        session['show_log']
+    except KeyError:
+        session['show_log'] = False
+    if session['show_log'] == True:
+        main(params)
     return render_template('index.html', title="Home")
 
 @app.route('/upload', methods=["GET", "POST"])
@@ -30,6 +36,7 @@ def upload():
         session['filepath1'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename1)
         session['filepath2'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename2)
         params.LOGGING_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, 'logs.log')
+        session['relative_log_path'] = os.path.relpath(params.LOGGING_PATH, start='../../../')
         return redirect(url_for('parameters'))
     return render_template('upload.html', title="Upload", form=form)
 
@@ -59,6 +66,6 @@ def parameters():
         params.min_snr, session['min_snr'] = form.min_snr.data, form.min_snr.data
         params.perc, session['perc'] = form.perc.data, form.perc.data
         params.max_scale_for_peak, session['max_scale_for_peak'] = form.max_scale_for_peak.data, form.max_scale_for_peak.data
-        main(params)
+        session['show_log'] = True
         return redirect(url_for('index'))
     return render_template('parameters.html', title="Parameters", form=form)
