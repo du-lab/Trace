@@ -1,9 +1,9 @@
 from app import app
-from flask import render_template, session, redirect, url_for, request
+from flask import render_template, session, redirect, url_for, request, Response
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import MultiDict
 from app.forms import UploadForm, ParametersForm
-import os, random, string
+import os, random, string, time
 
 from app.trace.MasterConfig import params
 from app.trace import mzmlReadRaw as read
@@ -12,12 +12,18 @@ from app.trace.TRACE import main
 @app.route('/')
 @app.route('/index')
 def index():
-    try:
-        session['show_log']
-    except KeyError:
-        session['show_log'] = False
-    if session['show_log'] == True:
-        main(params)
+    if session.get('start_trace') == True or params.PROFILE_MS_PATH != r"C:\Users\jerry\Desktop\D11LE22.mzML":
+        try:
+            log_file = open(session.get('relative_log_path'))
+        except TypeError:
+            return redirect(url_for('upload'))
+        except FileNotFoundError:
+            session['start_trace'] = False
+            session.pop('relative_log_path')
+            session.clear()
+            main(params)
+        else:
+            log_file.close()
     return render_template('index.html', title="Home")
 
 @app.route('/upload', methods=["GET", "POST"])
@@ -30,13 +36,13 @@ def upload():
         filename1 = secure_filename(file1.filename)
         filename2 = secure_filename(file2.filename)
         folder_name = ''.join(random.choice(string.ascii_lowercase) for i in range(10))
-        os.mkdir(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name))
-        file1.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename1))
-        file2.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename2))
-        session['filepath1'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename1)
-        session['filepath2'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, filename2)
-        params.LOGGING_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', folder_name, 'logs.log')
-        session['relative_log_path'] = os.path.relpath(params.LOGGING_PATH, start='../../../')
+        os.mkdir(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static/uploads', folder_name))
+        file1.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static/uploads', folder_name, filename1))
+        file2.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static/uploads', folder_name, filename2))
+        session['filepath1'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static/uploads', folder_name, filename1)
+        session['filepath2'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static/uploads', folder_name, filename2)
+        params.LOGGING_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static/uploads', folder_name, 'logs.log')
+        session['relative_log_path'] = os.path.relpath(params.LOGGING_PATH, start='')
         return redirect(url_for('parameters'))
     return render_template('upload.html', title="Upload", form=form)
 
@@ -66,6 +72,23 @@ def parameters():
         params.min_snr, session['min_snr'] = form.min_snr.data, form.min_snr.data
         params.perc, session['perc'] = form.perc.data, form.perc.data
         params.max_scale_for_peak, session['max_scale_for_peak'] = form.max_scale_for_peak.data, form.max_scale_for_peak.data
-        session['show_log'] = True
+        session['start_trace'] = True
         return redirect(url_for('index'))
     return render_template('parameters.html', title="Parameters", form=form)
+
+@app.route('/logging')
+def logging():
+    log_path = session.get('relative_log_path')
+    if log_path is None or params.PROFILE_MS_PATH == r"C:\Users\jerry\Desktop\D11LE22.mzML":
+        return ''
+
+    # TODO Read lines from log_path and send them to Response
+    try:
+        log_file = open(log_path)
+    except FileNotFoundError:
+        return ''
+    else:
+        log_file_lines = [line for line in log_file if "HTTP" not in line]
+        log_content = '\n'.join(log_file_lines)
+        log_file.close()
+    return Response(log_content, mimetype='text/plain')

@@ -37,6 +37,9 @@ def main(parameters):
 
     logging.critical('Starting Trace...\n')
     logging.critical('\nGeneral Parameters:\nResults Path: {}\nCentroid MS Path: {}\nProfile MS Path: {}\nCores: {}\nRAM 8 Times Size Of Profile Data File: {}\nWindow M/Z: {}\nWindow Time: {}\nPlot Images: {}\nMin M/Z: {}\nMax M/Z: {}\nM/Z Bin: {}\nMS Frequency: {}\n\nCWT Parameters:\nMin Length Of EIC To Be Scanned: {}\nMax Peak Width: {}\nTime window: {}\nWindow Size: {}\nSNR For Wavelet: {}\nMax Scale For Peak: {}\n'.format(params.RESULTS_PATH, params.CENTROID_MS_PATH, params.PROFILE_MS_PATH, params.NUM_C, params.Big_RAM, params.window_mz, params.window_rt, params.Plot_images, params.mz_min, params.mz_max,params.mz_r, params.ms_freq, params.min_len_eic, params.max_peak_width, params.time_window, params.window_size, params.min_snr,params.max_scale_for_peak ))
+    # for i in range(10):
+    #     logging.critical(i)
+    #     time.sleep(5)
     if not os.path.isdir(params.RESULTS_PATH):   ## Will create a folder for results if not existent.
         os.makedirs(params.RESULTS_PATH)
 

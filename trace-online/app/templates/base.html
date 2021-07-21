@@ -1,17 +1,5 @@
 {% extends 'bootstrap/base.html' %}
 
-{% block head %}
-    {% with show_log = session['show_log'] %}
-    {% if show_log == True %}
-    {% with relative_log_path = session['relative_log_path'] %}
-    <script>
-        setInterval(function() {
-            $('#logfile').load(relative_log_path);
-        }, 1000);
-    </script>
-    {% endif %}
-{% endblock %}
-
 {% block title %}
     {% if title %}{{ title }} - Trace{% else %}Trace Online{% endif %}
 {% endblock %}
@@ -39,6 +27,15 @@
 {% endblock %}
 
 {% block content %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+    </script>
+
+    <script>
+        setInterval(function() {
+            $('#logfile').load('logging');
+        }, 1000);
+    </script>
+
     <div class="container">
         {# application content needs to be provided in the app_content block #}
         <div class-="row" style="height: 100%;">
@@ -46,6 +43,7 @@
             <div class="col-md-3" style="border-left-style: solid; padding-left: 8px; margin-left: -3px;">
                 <h1>Logging Area</h1>
                 <p>More information</p>
+                <div id="logfile"><br></div>
             </div>
         </div>
     </div>

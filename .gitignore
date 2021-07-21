@@ -140,3 +140,7 @@ Trace.iml
 .vscode/settings.json
 debug.log
 .idea
+loadfiletest.html
+testloadfile2.txt
+os_path_test.py
+trace-online/app/static/uploads
