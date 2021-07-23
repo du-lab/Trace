@@ -134,7 +134,7 @@ def predict(pk_list, RESULTS_PATH, PLOT_IMG = False):
 
         score_save.append(sss)
         print ('Model ' + str(jj) + ' Predicted peaks: ', cc, ' from ', len(pk_list), 'target images' )
-        logging.critical('Model {} Predicted peaks: {} from  {} target images'.format(str(jj), cc, len(pk_list)))
+        logger.info('Model {} Predicted peaks: {} from  {} target images'.format(str(jj), cc, len(pk_list)))
         sess.close()
 
     score_vote = np.mean(np.transpose(score_save), axis = 1)
@@ -149,7 +149,7 @@ def predict(pk_list, RESULTS_PATH, PLOT_IMG = False):
             target_imgs.append(pk_list[kk].image)
 
     print ('Final peaks predicted: ', len(target_pks))
-    logging.critical('\n\nFinal peaks predicted: {} '.format(len(target_pks)) )
+    logger.info('\n\nFinal peaks predicted: {} '.format(len(target_pks)) )
     #f2 = (RESULTS_PATH + "/ImageData_Final-pks.txt")
     #np.savetxt(f2, target_imgs, fmt='%.2f',delimiter=' ')
 

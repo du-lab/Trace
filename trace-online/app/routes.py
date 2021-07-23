@@ -12,7 +12,7 @@ from app.trace.TRACE import main
 @app.route('/')
 @app.route('/index')
 def index():
-    if session.get('start_trace') == True or params.PROFILE_MS_PATH != r"C:\Users\jerry\Desktop\D11LE22.mzML":
+    if session.get('start_trace') == True:
         try:
             log_file = open(session.get('relative_log_path'))
         except TypeError:
@@ -79,7 +79,7 @@ def parameters():
 @app.route('/logging')
 def logging():
     log_path = session.get('relative_log_path')
-    if log_path is None or params.PROFILE_MS_PATH == r"C:\Users\jerry\Desktop\D11LE22.mzML":
+    if log_path is None:
         return ''
 
     # TODO Read lines from log_path and send them to Response
