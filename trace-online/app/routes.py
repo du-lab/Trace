@@ -12,18 +12,6 @@ from app.trace.TRACE import main
 @app.route('/')
 @app.route('/index')
 def index():
-    if session.get('start_trace') == True:
-        try:
-            log_file = open(session.get('relative_log_path'))
-        except TypeError:
-            return redirect(url_for('upload'))
-        except FileNotFoundError:
-            session['start_trace'] = False
-            session.pop('relative_log_path')
-            session.clear()
-            main(params)
-        else:
-            log_file.close()
     return render_template('index.html', title="Home")
 
 @app.route('/upload', methods=["GET", "POST"])
@@ -51,6 +39,9 @@ def parameters():
     if request.method == 'GET':
         params.CENTROID_MS_PATH = session['filepath1']
         params.PROFILE_MS_PATH = session['filepath2']
+        params.RESULTS_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'results')
+        params.MEAN_STD_IMGS_PATH = '/Users/ericsun/Projects/Trace/trace-cli/Imgs_mean_std.txt/'
+        params.MODEL_PATH = '/Users/ericsun/Projects/Trace/pre-trained_models/model1.data-00000-of-00001'
         [scan_num, scan_t, mz_list] = read.init_scan(params.PROFILE_MS_PATH)
         params.mz_min = min(mz_list)
         params.mz_max = max(mz_list)
@@ -73,7 +64,7 @@ def parameters():
         params.perc, session['perc'] = form.perc.data, form.perc.data
         params.max_scale_for_peak, session['max_scale_for_peak'] = form.max_scale_for_peak.data, form.max_scale_for_peak.data
         session['start_trace'] = True
-        return redirect(url_for('index'))
+        return redirect(url_for('result'))
     return render_template('parameters.html', title="Parameters", form=form)
 
 @app.route('/logging')
@@ -92,3 +83,20 @@ def logging():
         log_content = '\n'.join(log_file_lines)
         log_file.close()
     return Response(log_content, mimetype='text/plain')
+
+@app.route('/result')
+def result():
+    if session.get('start_trace') == True:
+        try:
+            log_file = open(session.get('relative_log_path'))
+        except TypeError:
+            return redirect(url_for('upload'))
+        except FileNotFoundError:
+            params.Big_RAM = True
+            session['start_trace'] = False
+            session.pop('relative_log_path')
+            session.clear()
+            main(params)
+        else:
+            log_file.close()
+    return render_template('result.html', title="Result")
