@@ -19,6 +19,8 @@ from joblib import Parallel, delayed
 import multiprocessing as mp
 import logging
 
+logger = logging.getLogger("TRACE")
+
 ############################### ricker ####################################
 def ricker(points, a):
     A = 2 / (np.sqrt(3 * a) * (np.pi ** 0.25))

@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import logging
 
+logger = logging.getLogger("TRACE")
 
 def get_image( profile_file_mzML, pk_list, RESULTS_PATH, Big_RAM = 0, window_mz = 6, window_rt = 30 ):   ## Add a choice of big RAM or not ###
 

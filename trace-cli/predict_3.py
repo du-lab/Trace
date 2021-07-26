@@ -19,6 +19,8 @@ import matplotlib.patches as mpatches
 from sklearn.cluster import KMeans
 import logging
 
+logger = logging.getLogger("TRACE")
+
 # Weight Initialization
 def weight_variable(shape, var_name):
     initial = tf.truncated_normal(shape, stddev=0.1)
