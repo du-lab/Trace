@@ -79,8 +79,10 @@ def logging():
     except FileNotFoundError:
         return ''
     else:
-        log_file_lines = [line for line in log_file if "HTTP" not in line]
-        log_content = '\n'.join(log_file_lines)
+        # log_file_lines = [line for line in log_file if "HTTP" not in line]
+        # log_content = ''.join(log_file_lines)
+        # log_file.close()
+        log_content = log_file.read()
         log_file.close()
     return Response(log_content, mimetype='text/plain')
 
