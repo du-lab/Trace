@@ -40,8 +40,8 @@ def parameters():
         params.CENTROID_MS_PATH = session['filepath1']
         params.PROFILE_MS_PATH = session['filepath2']
         params.RESULTS_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'results')
-        params.MEAN_STD_IMGS_PATH = '/Users/ericsun/Projects/Trace/trace-cli/Imgs_mean_std.txt/'
-        params.MODEL_PATH = '/Users/ericsun/Projects/Trace/pre-trained_models/model1.data-00000-of-00001'
+        params.MEAN_STD_IMGS_PATH = '/Users/ericsun/Projects/Trace/trace-cli/Imgs_mean_std.txt'
+        params.MODEL_PATH = '/Users/ericsun/Projects/Trace/pre-trained_models/model'
         [scan_num, scan_t, mz_list] = read.init_scan(params.PROFILE_MS_PATH)
         params.mz_min = min(mz_list)
         params.mz_max = max(mz_list)
@@ -94,7 +94,7 @@ def result():
         except TypeError:
             return redirect(url_for('upload'))
         except FileNotFoundError:
-            params.Big_RAM = True
+            # params.Big_RAM = True
             session['start_trace'] = False
             session.pop('relative_log_path')
             session.clear()
