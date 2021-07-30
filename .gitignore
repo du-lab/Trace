@@ -145,3 +145,5 @@ testloadfile2.txt
 os_path_test.py
 trace-online/app/static/uploads
 requirementsvenv.txt
+venv2/
+/trace-online/app/results/
