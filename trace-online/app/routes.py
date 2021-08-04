@@ -99,7 +99,6 @@ def result():
             session.pop('relative_log_path')
             session.clear()
             peaks = main(params)
-            session['peaks'] = peaks
         else:
             log_file.close()
-    return render_template('result.html', title="Result", peaks=session['peaks'])
+    return render_template('result.html', title="Result", peaks=peaks)
