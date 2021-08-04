@@ -8,6 +8,10 @@
     style="height: 100%;"
 {% endblock %}
 
+{% block custom_styles %}
+    {% block css_styles %}{% endblock %}
+{% endblock %}
+
 {% block body_attribs %}
     style="height: 100%;"
 {% endblock %}
@@ -44,7 +48,7 @@
                 <h1>Logging Area</h1>
                 <p>More information</p>
                 <pre id="logfile"
-                     style="height: 100%; overflow-y: auto; display: flex; flex-direction: column-reverse; font-size: 0.75em;"><br></pre>
+                     style="height: 100%; overflow-y: auto; font-size: 0.75em;"><br></pre>
             </div>
         </div>
     </div>

@@ -46,20 +46,20 @@ def main(parameters):
     ## First step: CWT and initial scanning
     pks_initial = scan_mp(params.CENTROID_MS_PATH, NUM_C=params.NUM_C)  ##
 
-    # pickle.dump(pks_initial, open(params.RESULTS_PATH + "\\save.p", "wb"))
+    pickle.dump(pks_initial, open(params.RESULTS_PATH + "/save.p", "wb"))
 
     ## Second step: Signal image evaluation.
-    # pks_initial_debug = pickle.load(open(params.RESULTS_PATH + "\\save.p", "rb"))
-    peaks_with_images = get_image(params.PROFILE_MS_PATH, pks_initial, params.RESULTS_PATH, params.Big_RAM, params.window_mz, params.window_rt)
-    # pickle.dump(peaks_with_images, open(params.RESULTS_PATH + "\\save2.p", "wb"))
+    pks_initial_debug = pickle.load(open(params.RESULTS_PATH + "/save.p", "rb"))
+    peaks_with_images = get_image(params.PROFILE_MS_PATH, pks_initial_debug, params.RESULTS_PATH, params.Big_RAM, params.window_mz, params.window_rt)
+    pickle.dump(peaks_with_images, open(params.RESULTS_PATH + "/save2.p", "wb"))
 
 
     ## Final prediction
-    # peaks_with_images_debug = pickle.load(open(params.RESULTS_PATH + "\\save2.p", "rb"))
-    # pks_final = predict(peaks_with_images, RESULTS_PATH=params.RESULTS_PATH, PLOT_IMG=params.Plot_images)
+    peaks_with_images_debug = pickle.load(open(params.RESULTS_PATH + "/save2.p", "rb"))
+    pks_final = predict(peaks_with_images_debug, RESULTS_PATH=params.RESULTS_PATH, PLOT_IMG=params.Plot_images)
     logger.info('\nDone! Final disk results in {} folder.'.format(params.RESULTS_PATH))
-    # allPeaksResults.allPeaks = pks_final
-    return peaks_with_images
+    allPeaksResults.allPeaks = pks_final
+    return pks_final
 
 if __name__ == '__main__':
     main(params)

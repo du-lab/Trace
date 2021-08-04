@@ -158,8 +158,8 @@ def predict(pk_list, RESULTS_PATH, PLOT_IMG = False):
     #Not necessary, not functional when passing Peak object list. Adjust if want to
 
     if PLOT_IMG :
-        if not os.path.isdir(params.RESULTS_PATH + '\Signal_Images'):
-            os.system('mkdir .\Results\Signal_Images')
+        if not os.path.isdir(params.RESULTS_PATH + '/Signal_Images'):
+            os.mkdir(params.RESULTS_PATH + '/Signal_Images')
         print ('Now Ploting...')
         for kk in range(np.shape(target_pks)[0]):
             mz0 = round(target_pks[kk][0].mz, 3)
@@ -170,7 +170,7 @@ def predict(pk_list, RESULTS_PATH, PLOT_IMG = False):
             plt.xlabel('M/Z')
             plt.ylabel('Time')
             plt.colorbar()
-            plt.savefig(RESULTS_PATH+ "\Signal_Images\Signal_" + str(kk+1) + '_' + str(mz0) + '_'+ str(rt0) + '.png')
+            plt.savefig(RESULTS_PATH+ "/Signal_Images/Signal_" + str(kk+1) + '_' + str(mz0) + '_'+ str(rt0) + '.png')
             plt.clf()
 
 
