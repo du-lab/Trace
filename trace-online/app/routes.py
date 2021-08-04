@@ -40,12 +40,12 @@ def parameters():
         params.CENTROID_MS_PATH = session['filepath1']
         params.PROFILE_MS_PATH = session['filepath2']
         params.RESULTS_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'results')
-        params.MEAN_STD_IMGS_PATH = '/Users/ericsun/Projects/Trace/trace-cli/Imgs_mean_std.txt'
-        params.MODEL_PATH = '/Users/ericsun/Projects/Trace/pre-trained_models/model'
+        # params.MEAN_STD_IMGS_PATH = '/Users/ericsun/Projects/Trace/trace-cli/Imgs_mean_std.txt'
+        # params.MODEL_PATH = '/Users/ericsun/Projects/Trace/pre-trained_models/model'
         [scan_num, scan_t, mz_list] = read.init_scan(params.PROFILE_MS_PATH)
         params.mz_min = min(mz_list)
         params.mz_max = max(mz_list)
-        params.ms_freq = scan_num/(scan_t[len(scan_t)-1]-scan_t[0])
+        params.ms_freq = round(scan_num/(scan_t[len(scan_t)-1]-scan_t[0]))
         session['mz_min'], session['mz_max'], session['ms_freq'] = params.mz_min, params.mz_max, params.ms_freq
         form = ParametersForm(formdata=MultiDict({'window_mz': params.window_mz, 'window_rt': params.window_rt,
                                                   'mz_r': params.mz_r, 'min_len_eic': params.min_len_eic,

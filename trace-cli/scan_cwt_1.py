@@ -127,6 +127,10 @@ def boolrelextrema(data, comparator, axis=0, order=1, mode='clip'):
 
 ############# Merge the signal list: delete the repeated ones ##########
 def merge(f):
+
+    if f is None or len(f) == 0:
+        return f
+
     m_r = 0.005  # Uncertainty for m/z allowed.
     t_r = 0.1  # Uncertainty for rt  allowed.
     cnew = 0
@@ -187,11 +191,13 @@ def scan_EIC(ind):
             # print "largest one ", mz_max, ht_max
             chrm_ht.append(ht_max)
             chrm_mz.append(mz_max)
-            chrm_tt.append(round(float(scan_time[t]), 3))
+            chrm_tt.append(round(float(scan_time[t]) / 60, 3))
             chrm_ct.append(pos2 - pos1)
 
-    if len(chrm_ht) < params.min_len_eic:  # continue
+    if len(chrm_ht) < params.min_len_eic or ht_max < 1000:  # continue
         return
+
+    logging.getLogger("TRACE").info("Performing CWT on the chromatogram [{:.4f}..{:.4f}] of height {:.0f}".format(mz1, mz2, ht_max))
 
     cwtmatr = cwt(np.asarray(chrm_ht), widths)
 
