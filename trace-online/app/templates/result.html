@@ -10,32 +10,37 @@
             padding: 5px;
         }
     </style>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
 {% endblock %}
 
 {% block app_content %}
     <div class="col-md-9">
         <h3>Trace has finished running</h3><hr>
-        <table>
-            <tr>
-                <th>Number</th>
-                <th>mz</th>
-                <th>time</th>
-                <th>height</th>
-                <th>area</th>
-                <th>snr</th>
-                <th>prediction</th>
-            </tr>
-            {% for peak in peaks %}
-            <tr>
-                <td>{{ peaks.index(peak) + 1 }}</td>
-                <td>{{ peak.mz }}</td>
-                <td>{{ peak.time }}</td>
-                <td>{{ peak.height }}</td>
-                <td>{{ peak.area }}</td>
-                <td>{{ peak.snr }}</td>
-                <td>{{ peak.prediction }}</td>
-            </tr>
-            {% endfor %}
+        <table id="peaks_table">
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>mz</th>
+                    <th>time</th>
+                    <th>height</th>
+                    <th>area</th>
+                    <th>snr</th>
+                    <th>prediction</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for peak in peaks %}
+                <tr>
+                    <td>{{ peaks.index(peak) + 1 }}</td>
+                    <td>{{ peak.mz }}</td>
+                    <td>{{ peak.time }}</td>
+                    <td>{{ peak.height }}</td>
+                    <td>{{ peak.area }}</td>
+                    <td>{{ peak.snr }}</td>
+                    <td>{{ peak.prediction }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </div>
 {% endblock %}

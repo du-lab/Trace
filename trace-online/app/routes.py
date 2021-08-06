@@ -12,6 +12,10 @@ from app.trace.TRACE import main
 @app.route('/')
 @app.route('/index')
 def index():
+    if session.get('clear_session') == True:
+        session.pop('relative_log_path')
+        session.pop('clear_session')
+        session.clear()
     return render_template('index.html', title="Home")
 
 @app.route('/upload', methods=["GET", "POST"])
@@ -96,9 +100,10 @@ def result():
         except FileNotFoundError:
             # params.Big_RAM = True
             session['start_trace'] = False
-            session.pop('relative_log_path')
-            session.clear()
+            # session.pop('relative_log_path')
+            # session.clear()
             peaks = main(params)
+            session['clear_session'] = True
         else:
             log_file.close()
     return render_template('result.html', title="Result", peaks=peaks)
