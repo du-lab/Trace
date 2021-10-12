@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-  <div class="col-md-9" style="border-right-style: solid;">
+  <div class="col-md-9">
 
     <div style="border: solid; padding: 100px 200px;">
       <h2>Plot</h2>
@@ -16,6 +16,9 @@
       </li>
       <li role="presentation">
         <a href="#cwtparam" aria-controls="cwt parameters" role="tab" data-toggle="tab">CWT Parameters</a>
+      </li>
+      <li role="presentation">
+        <a href="#precalcparam" aria-controls="pre-calculated parameters" role="tab" data-toggle="tab">Pre-calculated Parameters</a>
       </li>
     </ul>
 
@@ -82,6 +85,30 @@
           <span style="color: red;">[{{ error }}]</span>
           {% endfor %}
         </p>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="precalcparam">
+        <p>
+          {{ form.mz_min.label }}<br>
+          {{ form.mz_min (size=32) }}
+          {% for error in form.mz_min.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.mz_max.label }}<br>
+          {{ form.mz_max (size=32) }}
+          {% for error in form.mz_max.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>
+          {{ form.ms_freq.label }}<br>
+          {{ form.ms_freq (size=32) }}
+          {% for error in form.ms_freq.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p>*Not changeable</p>
       </div>
     </div>
     <p style="margin: 100px 350px;">{{ form.submit() }}</p>

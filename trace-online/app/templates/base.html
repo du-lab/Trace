@@ -4,11 +4,24 @@
     {% if title %}{{ title }} - Trace{% else %}Trace Online{% endif %}
 {% endblock %}
 
+{% block html_attribs %}
+    style="height: 100%;"
+{% endblock %}
+
+{% block custom_styles %}
+    {% block css_styles %}{% endblock %}
+{% endblock %}
+
+{% block body_attribs %}
+    style="height: 100%;"
+{% endblock %}
+
 {% block navbar %}
     <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -27,14 +40,30 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="container" style="height: 80%;">
         {# application content needs to be provided in the app_content block #}
         <div class-="row" style="height: 100%;">
             {% block app_content %}{% endblock %}
-            <div class="col-md-3" style="border-left-style: solid; padding-left: 8px; margin-left: -3px;">
+            <div class="col-md-3" style="padding-left: 8px; margin-left: -3px; height: 100%;">
                 <h1>Logging Area</h1>
                 <p>More information</p>
+                <pre id="logfile"
+                     style="height: 100%; overflow-y: auto; font-size: 0.75em;"><br></pre>
             </div>
         </div>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+    <script>
+        $(document).ready( function () {
+            $('#peaks_table').DataTable();
+        } );
+    </script>
+    <script>
+        setInterval(function () {
+            $('#logfile').load('logging');
+        }, 1000);
+    </script>
 {% endblock %}

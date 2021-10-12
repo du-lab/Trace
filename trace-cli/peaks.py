@@ -1,6 +1,3 @@
-import numpy as np
-import pandas as pd
-
 class Peak:
     mz = None
     time = None
@@ -11,5 +8,6 @@ class Peak:
     times = None
     mz_values = None
     prediction = False
+
     def __init__(self):
         pass

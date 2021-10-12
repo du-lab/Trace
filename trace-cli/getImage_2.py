@@ -1,12 +1,13 @@
 import sys
 import numpy as np
 import bisect as bs
-import mzmlReadRaw as read
-from peaks import Peak
+from app.trace import mzmlReadRaw as read
+from app.trace.peaks import Peak
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import logging
 
+logger = logging.getLogger("TRACE")
 
 def get_image( profile_file_mzML, pk_list, RESULTS_PATH, Big_RAM = 0, window_mz = 6, window_rt = 30 ):   ## Add a choice of big RAM or not ###
 
@@ -28,7 +29,7 @@ def get_image( profile_file_mzML, pk_list, RESULTS_PATH, Big_RAM = 0, window_mz 
 
         print(('Extract image of signal NO.: ', i))
         if (i%100 == 0):
-            logging.critical('Extracting image of signal {}'.format(i))
+            logger.info('Extracting image of signal {}'.format(i))
 
 
         mz0 = float(pk_list[i].mz)
@@ -80,7 +81,7 @@ def get_image( profile_file_mzML, pk_list, RESULTS_PATH, Big_RAM = 0, window_mz 
         pk_list[i].image = (np.reshape((area), window_mz * window_rt * 4))
 
     print(np.shape(pk_list))
-    logging.critical('\nImage extraction complete\n')
+    logger.info('\nImage extraction complete\n')
     return pk_list
 
 

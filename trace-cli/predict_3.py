@@ -6,18 +6,20 @@ import os
 import tensorflow as tf
 import math
 
-from MasterConfig import params
+from app.trace.MasterConfig import params
 
 import numpy as np
 import sys
 import random
-from peaks import Peak
+from app.trace.peaks import Peak
 import matplotlib
 matplotlib.use('Agg')  ## Avoid some problem when running on Windows or so..
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from sklearn.cluster import KMeans
 import logging
+
+logger = logging.getLogger("TRACE")
 
 # Weight Initialization
 def weight_variable(shape, var_name):
@@ -134,7 +136,7 @@ def predict(pk_list, RESULTS_PATH, PLOT_IMG = False):
 
         score_save.append(sss)
         print ('Model ' + str(jj) + ' Predicted peaks: ', cc, ' from ', len(pk_list), 'target images' )
-        logging.critical('Model {} Predicted peaks: {} from  {} target images'.format(str(jj), cc, len(pk_list)))
+        logger.info('Model {} Predicted peaks: {} from  {} target images'.format(str(jj), cc, len(pk_list)))
         sess.close()
 
     score_vote = np.mean(np.transpose(score_save), axis = 1)
@@ -149,15 +151,15 @@ def predict(pk_list, RESULTS_PATH, PLOT_IMG = False):
             target_imgs.append(pk_list[kk].image)
 
     print ('Final peaks predicted: ', len(target_pks))
-    logging.critical('\n\nFinal peaks predicted: {} '.format(len(target_pks)) )
+    logger.info('\n\nFinal peaks predicted: {} '.format(len(target_pks)) )
     #f2 = (RESULTS_PATH + "/ImageData_Final-pks.txt")
     #np.savetxt(f2, target_imgs, fmt='%.2f',delimiter=' ')
 
     #Not necessary, not functional when passing Peak object list. Adjust if want to
 
     if PLOT_IMG :
-        if not os.path.isdir(params.RESULTS_PATH + '\Signal_Images'):
-            os.system('mkdir .\Results\Signal_Images')
+        if not os.path.isdir(params.RESULTS_PATH + '/Signal_Images'):
+            os.mkdir(params.RESULTS_PATH + '/Signal_Images')
         print ('Now Ploting...')
         for kk in range(np.shape(target_pks)[0]):
             mz0 = round(target_pks[kk][0].mz, 3)
@@ -168,7 +170,7 @@ def predict(pk_list, RESULTS_PATH, PLOT_IMG = False):
             plt.xlabel('M/Z')
             plt.ylabel('Time')
             plt.colorbar()
-            plt.savefig(RESULTS_PATH+ "\Signal_Images\Signal_" + str(kk+1) + '_' + str(mz0) + '_'+ str(rt0) + '.png')
+            plt.savefig(RESULTS_PATH+ "/Signal_Images/Signal_" + str(kk+1) + '_' + str(mz0) + '_'+ str(rt0) + '.png')
             plt.clf()
 
 

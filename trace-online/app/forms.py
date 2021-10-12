@@ -26,4 +26,8 @@ class ParametersForm(FlaskForm):
     perc = IntegerField('Percentile within the window size', validators=[InputRequired()])
     max_scale_for_peak = IntegerField('Max CWT scale', validators=[InputRequired()])
 
+    mz_min = FloatField('minimum mz')
+    mz_max = FloatField('maximum mz')
+    ms_freq = FloatField('ms scanning frequency')
+
     submit = SubmitField('Process')

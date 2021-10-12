@@ -1,5 +1,7 @@
 import numpy as np
 
+from os.path import join
+
 #Configure Parameters For All Modules and GUI
 class MasterConfig:
     #Reference parameter descriptions at: https://drive.google.com/file/d/1sFaYOJhUzy4CGAyHIkhhx4Vdc1x7Sx9x/view?usp=sharing
@@ -10,14 +12,14 @@ class MasterConfig:
     # MS Data must be in .mzML format. Convert using MSConvert from Proteowizard. Specify the path on your computer and include "r" before
     CENTROID_MS_PATH = r"C:\Users\jerry\Desktop\2016-03-15_EP03_D11_cell-E2-2.mzML"
     PROFILE_MS_PATH = r"C:\Users\jerry\Desktop\D11LE22.mzML"
-    MEAN_STD_IMGS_PATH = r"C:\Users\jerry\Desktop\Trace-master\trace-cli\Imgs_mean_std.txt"
+    MEAN_STD_IMGS_PATH = join("trace-cli", "Imgs_mean_std.txt")
     MODEL_PATH = r"C:\Users\jerry\Desktop\Trace-master\pre-trained_models\model" #path to any pre-trained model but without the model number at the end
     LOGGING_PATH = r"C:\Users\jerry\Desktop\Trace-master\trace-cli\logs.log" #path to the logs
     # -----------------------------------
 
     # --------GENERAL PARAMETERS--------
     NUM_C = 1  ## MP use (all-2) threads by default. Adjusted to 1 core due to parallel processing error
-    Big_RAM = 1  ## See if the RAM of PC is big enough (> 8 times bigger than profile file size)
+    Big_RAM = 1  ## See if the RAM of PC is big enough (> 8 times bigger than profile file size) [Set to True to run faster]
     window_mz = 6  # the m/z range is 6 points (on both sides)
     window_rt = 30  # The time range is 30 points (on both sides)
     Plot_images = True  # choose to plot final predicted signal images or not
