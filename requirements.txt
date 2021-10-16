@@ -9,7 +9,7 @@ click==8.0.3
 cycler==0.10.0
 dominate==2.6.0
 Flask==2.0.2
-Flask-Bootstrap4==4.0.2
+Flask-Bootstrap==3.3.7.1
 Flask-WTF==0.15.1
 flatbuffers==1.12
 gast==0.4.0

@@ -194,10 +194,10 @@ def scan_EIC(ind):
             chrm_tt.append(round(float(scan_time[t]) / 60, 3))
             chrm_ct.append(pos2 - pos1)
 
-    if len(chrm_ht) < params.min_len_eic or ht_max < 1000:  # continue
+    if len(chrm_ht) < params.min_len_eic or np.max(chrm_ht) < 10000:  # continue
         return
 
-    logging.getLogger("TRACE").info("Performing CWT on the chromatogram [{:.4f}..{:.4f}] of height {:.0f}".format(mz1, mz2, ht_max))
+    logging.getLogger("TRACE").info("Performing CWT on the chromatogram [{:.4f}..{:.4f}] of height {:.0f}".format(mz1, mz2, np.max(chrm_ht)))
 
     cwtmatr = cwt(np.asarray(chrm_ht), widths)
 

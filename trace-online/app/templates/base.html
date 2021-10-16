@@ -42,25 +42,32 @@
 {% block content %}
     <div class="container" style="height: 80%;">
         {# application content needs to be provided in the app_content block #}
-        <div class-="row" style="height: 100%;">
-            {% block app_content %}{% endblock %}
-            <div class="col-md-3" style="padding-left: 8px; margin-left: -3px; height: 100%;">
-                <h1>Logging Area</h1>
-                <p>More information</p>
+        <div class="row">
+            <div class="col">
+                {% block app_content %}{% endblock %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" style="padding-left: 8px; margin-left: -3px; height: 100%;">
+                <h3>More information</h3>
                 <pre id="logfile"
-                     style="height: 100%; overflow-y: auto; font-size: 0.75em;"><br></pre>
+                     style="display: flex; flex-direction: column-reverse; height: 200px; overflow-y: auto; font-size: 0.75em;"><br></pre>
             </div>
         </div>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+{% endblock %}
 
-    <script>
-        $(document).ready( function () {
-            $('#peaks_table').DataTable();
-        } );
-    </script>
+{% block scripts %}
+    {{ super() }}
+    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>#}
+    {#    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>#}
+
+    {#    <script>#}
+    {#        $(document).ready( function () {#}
+    {#            $('#peaks_table').DataTable();#}
+    {#        } );#}
+    {#    </script>#}
     <script>
         setInterval(function () {
             $('#logfile').load('logging');

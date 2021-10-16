@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 
 {% block app_content %}
-    <div class="col-md-9">
-        <h1>Trace: Machine Learning of Signal Images for Trace-Sensitive Mass Spectrometry</h1><hr>
-        <p>Recent developments in high-resolution mass spectrometry (HRMS) technology enabled ultrasensitive
+    <h1>Trace: Machine Learning of Signal Images for Trace-Sensitive Mass Spectrometry</h1>
+    <hr>
+    <p>Recent developments in high-resolution mass spectrometry (HRMS) technology enabled ultrasensitive
         detection of proteins, peptides, and metabolites in limited amounts of samples, even single cells.</p><br>
-        <p>However, extraction of trace-abundance signals from complex data sets (m/z value, separation time,
+    <p>However, extraction of trace-abundance signals from complex data sets (m/z value, separation time,
         signal abundance) that result from ultrasensitive studies requires improved data processing algorithms.</p><br>
-        <p>To bridge this gap, we here developed "Trace", a software framework that incorporates machine learning
+    <p>To bridge this gap, we here developed "Trace", a software framework that incorporates machine learning
         (ML) to automate feature selection and optimization for the extraction of trace-level signals from
         HRMS data.</p><br>
-        <a href="https://pubs.acs.org/doi/10.1021/acs.analchem.8b05985" target="_blank" rel="noopener noreferrer">
-            Trace Paper</a><br>
-        <a href="{{ url_for('upload') }}">
-            <button type="button" style="margin-top:100px;margin-left:350px;padding:14px 30px;font-size:16px;">
-            Start</button>
-        </a>
-    </div>
+    <a href="https://pubs.acs.org/doi/10.1021/acs.analchem.8b05985" target="_blank" rel="noopener noreferrer">
+        Trace Paper</a><br>
+    <a href="{{ url_for('upload') }}">
+        <button type="button" style="margin-top:100px;margin-left:350px;padding:14px 30px;font-size:16px;">
+            Start
+        </button>
+    </a>
 {% endblock %}
